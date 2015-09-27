@@ -10,11 +10,10 @@ _source = 		_this select 3;				//The source unit that caused the damage.
 _hitPartIndex = _this select 5;				//Hit part index of the hit point, -1 otherwise.
 
 _hitPoint = (_object getHitIndex _hitPartIndex);
-if (_damage > _hitPoint) then {	
-	if ((side _source) != A3XAI_side) then {
-		if ((group _object) call A3XAI_getNoAggroStatus) then {_damage = _hitPoint;};
-	} else {
-		_damage = _hitPoint;
+if (_damage > _hitPoint) then {
+	call {
+		if ((group _object) call A3XAI_getNoAggroStatus) exitWith {_damage = _hitPoint;};
+		if ((side _source) isEqualTo A3XAI_side) exitWith {_damage = _hitPoint;};
 	};
 };
 

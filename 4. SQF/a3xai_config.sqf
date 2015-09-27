@@ -190,7 +190,7 @@ A3XAI_noCollisionDamage = true;
 //If enabled, AI killed by vehicle collisions will have their gear removed (Default: true)
 A3XAI_roadKillPenalty = true;
 
-//Array of positions defining trader locations. Use this if your server is not using the standard Exile trader markers in mission.sqm
+//Array of positions (2D or 3D position) defining trader locations. Use this if your server is not using the standard Exile trader markers in mission.sqm
 //For performance reasons, do not add locations other than actual trader positions to this array.
 A3XAI_traderAreaLocations = [];
 

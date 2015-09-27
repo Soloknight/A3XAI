@@ -26,7 +26,7 @@ if (_pos call A3XAI_checkInNoAggroArea) then {
 	_pos = _pos call A3XAI_getSafePosReflected;
 	[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 	if !(_pos isEqualTo []) then {
-		_tempWP = [_unitGroup,_pos,"if !(local this) exitWith {}; [(group this),PATROL_DIST_VEHICLEGROUP] call A3XAI_moveToPosAndPatrol;"] call A3XAI_addTemporaryWaypoint;
+		_tempWP = [_unitGroup,_pos,format ["if !(local this) exitWith {}; [(group this),%1] call A3XAI_moveToPosAndPatrol;",PATROL_DIST_VEHICLEGROUP]] call A3XAI_addTemporaryWaypoint;
 	};
 } else {
 	_unitGroup setCombatMode "YELLOW";

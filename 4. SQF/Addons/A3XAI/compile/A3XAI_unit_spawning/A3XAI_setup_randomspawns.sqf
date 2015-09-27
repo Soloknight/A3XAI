@@ -41,7 +41,7 @@ for "_i" from 1 to _maxRandomSpawns do {
 		_location = [_trigPos,TEMP_BLACKLIST_AREA_RANDOM_SIZE] call A3XAI_createBlackListAreaRandom;
 		_trigger setVariable ["triggerLocation",_location];
 		[_trigger,"A3XAI_randTriggerArray"] call A3XAI_updateSpawnCount;
-		_onActStatements = format ["0 = [PATROL_DIST_RANDOM,thisTrigger,thisList,%1,%2,%3,%4] call A3XAI_createRandomInfantrySpawnQueue;",_spawnParams select 0,_spawnParams select 1,_spawnParams select 2,_spawnParams select 3];
+		_onActStatements = format ["0 = [%1,thisTrigger,thisList,%2,%3,%4,%5] call A3XAI_createRandomInfantrySpawnQueue;",PATROL_DIST_RANDOM,_spawnParams select 0,_spawnParams select 1,_spawnParams select 2,_spawnParams select 3];
 		_trigger setTriggerArea [TRIGGER_SIZE_SMALL,TRIGGER_SIZE_SMALL,0,false];
 		_trigger setTriggerActivation ["ANY", "PRESENT", true];
 		_trigger setTriggerTimeout [TRIGGER_TIMEOUT_RANDOM, true];

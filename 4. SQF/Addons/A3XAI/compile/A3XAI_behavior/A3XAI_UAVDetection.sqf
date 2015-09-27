@@ -18,15 +18,15 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UAVCallReinfor
 	_vehicle flyInHeight (FLYINHEIGHT_UAV_SEARCHING_BASE + (random FLYINHEIGHT_UAV_SEARCHING_VARIANCE));
 	
 	while {!(_vehicle getVariable ["vehicle_disabled",false]) && {(_unitGroup getVariable ["GroupSize",-1]) > 0} && {local _unitGroup}} do {
-		private ["_detected","_vehPos","_nearNoAggroAreas","_playerPos","_canReveal"];
+		private ["_detected","_vehPos","_nearBlacklistAreas","_playerPos","_canReveal"];
 		_vehPos = getPosATL _vehicle;
 		_canReveal = ((combatMode _unitGroup) in ["YELLOW","RED"]);
 		_detected = (getPosATL _vehicle) nearEntities [[PLAYER_UNITS,"LandVehicle"],DETECT_RANGE_UAV];
 		if ((count _detected) > 5) then {_detected resize 5};
-		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
+		_nearBlacklistAreas = if (_detected isEqualTo []) then {[]} else {nearestLocations [_vehPos,[BLACKLIST_OBJECT_GENERAL],1500]};
 		{
 			_playerPos = getPosATL _x;
-			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0}) then {
+			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearBlacklistAreas) isEqualTo 0}) then {
 				if (((lineIntersectsSurfaces [(aimPos _vehicle),(eyePos _x),_vehicle,_x,true,1]) isEqualTo []) && {A3XAI_UAVDetectChance call A3XAI_chance}) then {
 					if (_canCall) then {
 						if (isDedicated) then {

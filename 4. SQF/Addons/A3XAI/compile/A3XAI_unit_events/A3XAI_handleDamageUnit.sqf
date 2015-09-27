@@ -11,18 +11,15 @@ _hitPartIndex = _this select 5;				//Hit part index of the hit point, -1 otherwi
 
 _hitPoint = (_object getHitIndex _hitPartIndex);
 if (_damage > _hitPoint) then {
-	if ((side _source) != A3XAI_side) then {
-		call {
-			if ((group _object) call A3XAI_getNoAggroStatus) exitWith {_damage = _hitPoint;};
-			if ((!isNull (objectParent _source)) && {_ammo isEqualTo ""}) then {
-				call {
-					if (A3XAI_noCollisionDamage) exitWith {_damage = _hitPoint;};
-					if ((_damage >= 0.9) && {_hit in ["","body","head"]} && {_hitPartIndex > -1}) exitWith {_object setVariable ["CollisionKilled",A3XAI_roadKillPenalty];};
-				};
+	call {
+		if ((group _object) call A3XAI_getNoAggroStatus) exitWith {_damage = _hitPoint;}; 	//No damage from any source when non-hostile
+		if ((side _source) isEqualTo A3XAI_side) exitWith {_damage = _hitPoint;}; 			//No damage from units on same side
+		if ((!isNull (objectParent _source)) && {_ammo isEqualTo ""}) then {				//No damage if source is a vehicle and damage has no ammo (vehicle collision)
+			call {
+				if (A3XAI_noCollisionDamage) exitWith {_damage = _hitPoint;};
+				if ((_damage >= 0.9) && {_hit in ["","body","head"]} && {_hitPartIndex > -1}) exitWith {_object setVariable ["CollisionKilled",A3XAI_roadKillPenalty];};
 			};
 		};
-	} else {
-		_damage = _hitPoint;
 	};
 };
 

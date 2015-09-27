@@ -27,7 +27,7 @@ _cfgWorldName = configFile >> "CfgWorlds" >> worldName >> "Names";
 				{
 					_objType = (typeOf _x);
 					_objPos = (getPosATL _x);
-					if (!(surfaceIsWater _objPos) && {(sizeOf _objType) > STATIC_SPAWN_OBJECT_SIZE_REQ} && {({_objPos in _x} count _nearBlacklistedAreas) isEqualTo 0}) then {
+					if (!(surfaceIsWater _objPos) && {(sizeOf _objType) > STATIC_SPAWN_OBJECT_SIZE_REQ} && {({_objPos in _x} count _nearBlacklistedAreas) isEqualTo 0} && {!(_objPos call A3XAI_checkInNoAggroArea)}) then {
 						_spawnPoints = _spawnPoints + 1;
 					} else {
 						_nearbldgs deleteAt _forEachIndex;

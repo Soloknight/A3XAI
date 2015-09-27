@@ -16,18 +16,18 @@ if (_unitGroup getVariable ["HeliDetectReady",true]) then {
 	_unitGroup setVariable ["HeliDetectReady",false];
 	_detectStartPos = getPosATL _vehicle;
 	_canParaDrop = ((diag_tickTime - (_unitGroup getVariable ["HeliLastParaDrop",-A3XAI_paraDropCooldown])) > A3XAI_paraDropCooldown);
-	_vehicle flyInHeight (60 + (random 30));
+	_vehicle flyInHeight (FLYINHEIGHT_AIR_SEARCHING_BASE + (random FLYINHEIGHT_AIR_SEARCHING_VARIANCE));
 	
 	while {!(_vehicle getVariable ["vehicle_disabled",false]) && {(_unitGroup getVariable ["GroupSize",-1]) > 0} && {local _unitGroup}} do {
-		private ["_detected","_vehPos","_nearNoAggroAreas","_playerPos","_canReveal"];
+		private ["_detected","_vehPos","_nearBlacklistAreas","_playerPos","_canReveal"];
 		_vehPos = getPosATL _vehicle;
 		_canReveal = ((combatMode _unitGroup) in ["YELLOW","RED"]);
 		_detected = _vehPos nearEntities [[PLAYER_UNITS,"LandVehicle"],DETECT_RANGE_AIR];
 		if ((count _detected) > 5) then {_detected resize 5};
-		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
+		_nearBlacklistAreas = if (_detected isEqualTo []) then {[]} else {nearestLocations [_vehPos,[BLACKLIST_OBJECT_GENERAL],1500]};
 		{
 			_playerPos = getPosATL _x;
-			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0}) then {
+			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearBlacklistAreas) isEqualTo 0}) then {
 				if (_canParaDrop) then {
 					_canParaDrop = false;
 					_unitGroup setVariable ["HeliLastParaDrop",diag_tickTime];

@@ -72,7 +72,7 @@ _center_y = (_pos) select 1;
 _center_z = (_pos) select 2;
 if(isNil "_center_z")then{_center_z = 0;};
 
-_noAggroArea = !(_pos call A3XAI_checkInNoAggroArea);
+_allowInNoAggroArea = (_pos call A3XAI_checkInNoAggroArea);
 
 _wp_count = 4 + (floor random 3) + (floor (_max_dist / 100 ));
 _angle = (360 / (_wp_count -1));
@@ -115,7 +115,7 @@ while {count _wp_array < _wp_count} do
 
 	_wp_pos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 	
-	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {_noAggroArea && {_wp_pos call A3XAI_checkInNoAggroArea}}) then {
+	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {(_wp_pos call A3XAI_checkInNoAggroArea) or {_allowInNoAggroArea}}) then {
 		_retry = true;
 		_retryCount = 0;
 		_retryPos = [];
@@ -132,58 +132,60 @@ while {count _wp_array < _wp_count} do
 
 			_retryPos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 			_retryCount = _retryCount + 1;
-			if ((!surfaceIsWater _retryPos) && {_noAggroArea && {!(_retryPos call A3XAI_checkInNoAggroArea)}}) then {
+			if ((!(surfaceIsWater _wp_pos) or {_allowWater}) && (!(_wp_pos call A3XAI_checkInNoAggroArea) or {_allowInNoAggroArea})) then {
 				_retry = false;
 				_wp_pos = _retryPos;
 			};
 		};
 	};
 
-	_a = 0 + (_wp_pos select 0);
-	_b = 0 + (_wp_pos select 1);
-	
-	if (_searchLoot) then {
-		//////////////////////////////////////////////////////////////////
-		// The following code is an extract from Random Building Position Script v1.0 by Tophe of Östgöta Ops
-		//////////////////////////////////////////////////////////////////
-		_bldgpos = [];
-		_bldgs = nearestObjects [[_a,_b,0], ["HouseBase"], 50];
-		{
-		  private["_i","_y"];
-			_i = 0;
-			_y = _x buildingPos _i;
-			//while {format["%1", _y] != "[0,0,0]"} do {
-			while {!(_y isEqualTo [0,0,0]) } do {
-				//_bldgpos = _bldgpos + [_y];
-				_bldgpos pushBack _y;
-				_i = _i + 1;
-				_y = _x buildingPos _i;
-			};
-		} forEach _bldgs;
+	if ((!(surfaceIsWater _wp_pos) or {_allowWater}) && (!(_wp_pos call A3XAI_checkInNoAggroArea) or {_allowInNoAggroArea})) then {
+		_a = 0 + (_wp_pos select 0);
+		_b = 0 + (_wp_pos select 1);
 		
-		if(count _bldgpos != 0) then {_wp_pos = _bldgpos call A3XAI_selectRandom;};
-	} else {
-		if (_isVehicle) then {
-			_nearRoads = _wp_pos nearRoads ((_max_dist/2) min 100);
-			_roadsCount = count _nearRoads;
-			_returnPos = [];
-			if (_roadsCount > 0) then {
-				_returnPos = getPosATL (_nearRoads select 0);
-				if (_roadsCount > 1) then {
-					for "_i" from 1 to (_roadsCount -1) do {
-						_comparePos = getPosATL (_nearRoads select _i);
-						if ((_comparePos distance _wp_pos) < (_returnPos distance _wp_pos)) then {
-							_returnPos = _comparePos;
+		if (_searchLoot) then {
+			//////////////////////////////////////////////////////////////////
+			// The following code is an extract from Random Building Position Script v1.0 by Tophe of Östgöta Ops
+			//////////////////////////////////////////////////////////////////
+			_bldgpos = [];
+			_bldgs = nearestObjects [[_a,_b,0], ["HouseBase"], 50];
+			{
+			  private["_i","_y"];
+				_i = 0;
+				_y = _x buildingPos _i;
+				//while {format["%1", _y] != "[0,0,0]"} do {
+				while {!(_y isEqualTo [0,0,0]) } do {
+					//_bldgpos = _bldgpos + [_y];
+					_bldgpos pushBack _y;
+					_i = _i + 1;
+					_y = _x buildingPos _i;
+				};
+			} forEach _bldgs;
+			
+			if(count _bldgpos != 0) then {_wp_pos = _bldgpos call A3XAI_selectRandom;};
+		} else {
+			if (_isVehicle) then {
+				_nearRoads = _wp_pos nearRoads ((_max_dist/2) min 100);
+				_roadsCount = count _nearRoads;
+				_returnPos = [];
+				if (_roadsCount > 0) then {
+					_returnPos = getPosATL (_nearRoads select 0);
+					if (_roadsCount > 1) then {
+						for "_i" from 1 to (_roadsCount -1) do {
+							_comparePos = getPosATL (_nearRoads select _i);
+							if ((_comparePos distance _wp_pos) < (_returnPos distance _wp_pos)) then {
+								_returnPos = _comparePos;
+							};
 						};
 					};
+					_wp_pos = _returnPos;
 				};
-				_wp_pos = _returnPos;
 			};
 		};
+		//_wp_array = _wp_array + [_wp_pos];
+		_wp_array pushBack _wp_pos;
 	};
-	//_wp_array = _wp_array + [_wp_pos];
-	_wp_array pushBack _wp_pos;
-
+	
 	uiSleep 0.5;
 };
 
@@ -195,15 +197,13 @@ for "_i" from 1 to (_wp_count - 1) do
 
 	_cur_pos = (_wp_array select _i);
 	
-	if ((!(surfaceIsWater _cur_pos)) or {_allowWater}) then {
-		_wp = _unitGroup addWaypoint [_cur_pos, 0];
-		_wp setWaypointType "MOVE";
-		_wp setWaypointCompletionRadius _completionRadius;
-		_wp setWaypointTimeout [_wpTimeouts select 0, _wpTimeouts select 1, _wpTimeouts select 2];
-		_wp setWaypointStatements ["true",_wpStatements];
-		_wp setWaypointCombatMode _combatMode;
-		_wp setWaypointBehaviour _behavior;
-	};
+	_wp = _unitGroup addWaypoint [_cur_pos, 0];
+	_wp setWaypointType "MOVE";
+	_wp setWaypointCompletionRadius _completionRadius;
+	_wp setWaypointTimeout [_wpTimeouts select 0, _wpTimeouts select 1, _wpTimeouts select 2];
+	_wp setWaypointStatements ["true",_wpStatements];
+	_wp setWaypointCombatMode _combatMode;
+	_wp setWaypointBehaviour _behavior;
 	uiSleep 0.25;
 };
 

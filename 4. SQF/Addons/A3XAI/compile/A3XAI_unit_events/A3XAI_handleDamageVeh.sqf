@@ -11,16 +11,13 @@ _hitPartIndex = _this select 5;				//Hit part index of the hit point, -1 otherwi
 
 _hitPoint = (_object getHitIndex _hitPartIndex);
 if (_damage > _hitPoint) then {
-	if ((side _source) != A3XAI_side) then {
-		call {
-			if ((group _object) call A3XAI_getNoAggroStatus) exitWith {_damage = _hitPoint;};
-			if (((_hit find "wheel") > -1) && {_damage > 0.8} && {!(_object getVariable ["vehicle_disabled",false])}) exitWith {
-				[_object] call A3XAI_vehDestroyed;
-				if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: AI vehicle %1 (%2) is immobilized. Respawning vehicle patrol group.",_object,(typeOf _object)];};
-			};
+	call {
+		if ((group _object) call A3XAI_getNoAggroStatus) exitWith {_damage = _hitPoint;};
+		if ((side _source) isEqualTo A3XAI_side) exitWith {_damage = _hitPoint;};
+		if (((_hit find "wheel") > -1) && {_damage > 0.8} && {!(_object getVariable ["vehicle_disabled",false])}) exitWith {
+			[_object] call A3XAI_vehDestroyed;
+			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: AI vehicle %1 (%2) is immobilized. Respawning vehicle patrol group.",_object,(typeOf _object)];};
 		};
-	} else {
-		_damage = _hitPoint;
 	};
 };
 

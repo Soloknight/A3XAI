@@ -10,6 +10,7 @@ if (A3XAI_UAVDetectOnly) then {
 	if (isNil "AggroTime") then {
 		_lastAggro = 0;
 		_vehicle setVariable ["AggroTime",0];
+		[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 	};
 
 	if (_lastAggro > diag_tickTime) then {
