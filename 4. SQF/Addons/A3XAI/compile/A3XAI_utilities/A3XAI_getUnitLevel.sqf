@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_indexWeighted","_unitLevelIndexTable"];
 _unitLevelIndexTable = _this;
 

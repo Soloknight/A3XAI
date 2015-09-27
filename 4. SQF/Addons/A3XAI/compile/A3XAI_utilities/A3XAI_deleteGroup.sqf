@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 [_this,false] call A3XAI_updGroupCount;
 
 {

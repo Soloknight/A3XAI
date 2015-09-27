@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_trigger", "_triggerVars", "_value"];
 
 _unitGroup = _this;

@@ -1,5 +1,4 @@
-#define RADIO_ITEM "ItemRadio"
-#define PLAYER_UNITS "Exile_Unit_Player"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup", "_unitLevel", "_unitType", "_groupSize", "_vehicle"];
 

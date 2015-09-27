@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_unitType", "_fnc_execEveryLoop", "_fnc_checkUnits", "_fnc_generateLoot", "_fnc_vehicleAmmoFuelCheck", "_fnc_antistuck"];
 
 _unitGroup = _this select 0;

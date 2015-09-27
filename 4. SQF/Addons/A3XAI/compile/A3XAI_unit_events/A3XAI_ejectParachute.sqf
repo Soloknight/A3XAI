@@ -1,4 +1,4 @@
-#define PARACHUTE_OBJECT "Steerable_Parachute_F"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unit","_unitPos","_parachute"];
 

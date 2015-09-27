@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 A3XAI_SMS = (_this select 1);
 
 if (isDedicated) then {

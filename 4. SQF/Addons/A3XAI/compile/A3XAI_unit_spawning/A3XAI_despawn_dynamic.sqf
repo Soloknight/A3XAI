@@ -1,9 +1,4 @@
-/*
-	despawnBandits_dynamic
-
-	Last updated: 10:57 PM 3/10/2014
-	
-*/
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_trigger","_triggerLocation","_isForceDespawn","_grpArray","_canDespawn","_triggerExists","_triggerStatements","_deactStatements"];
 

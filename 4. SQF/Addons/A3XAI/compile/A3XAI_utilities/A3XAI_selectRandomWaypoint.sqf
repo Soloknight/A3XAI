@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_currentWaypoint", "_allWaypoints", "_selectedWaypoint"];
 
 _unitGroup = _this select 0;

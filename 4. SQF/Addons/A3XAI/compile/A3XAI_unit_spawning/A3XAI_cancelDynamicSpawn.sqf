@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private["_trigger"];
 _trigger = _this;
 

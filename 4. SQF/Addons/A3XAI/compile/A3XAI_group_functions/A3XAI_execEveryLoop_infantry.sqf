@@ -1,4 +1,4 @@
-#define DISTANCE_BUFFER 50
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup", "_vehicle", "_inArea", "_result", "_trigger", "_maxDistance"];
 
@@ -13,7 +13,7 @@ if !(_inArea) then {
 	_trigger = _unitGroup getVariable "trigger";
 	if !(isNil "_trigger") then {
 		_maxDistance = _unitGroup getVariable ["patrolDist",250];
-		if ((_vehicle distance _trigger) > (_maxDistance + DISTANCE_BUFFER)) then {
+		if ((_vehicle distance2D _trigger) > (_maxDistance + PATROL_DISTANCE_BUFFER)) then {
 			(units _unitGroup) doMove (getPosATL _trigger);
 			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Group %1 moved beyond allowed patrol radius, ordering group towards spawn center.",_unitGroup];};
 		};

@@ -1,13 +1,4 @@
-//Function frequency definitions
-#define CLEANDEAD_FREQ 300
-#define LOCATION_CLEANUP_FREQ 360
-#define RANDSPAWN_CHECK_FREQ 360
-#define RANDSPAWN_EXPIRY_TIME 1080
-#define SIDECHECK_TIME 1200
-#define UPDATE_PLAYER_COUNT_FREQ 60
-#define PLAYER_UNITS "Exile_Unit_Player"
-#define EXTERNAL_OBJECT_MONITOR_NAME "ExileSimulationMonitoredVehicles"
-#define PLAYER_GROUP_SIDE resistance
+#include "\A3XAI\globaldefines.hpp"
 
 if (A3XAI_debugLevel > 0) then {diag_log "A3XAI Server Monitor will start in 60 seconds."};
 
@@ -17,9 +8,9 @@ _cleanDead = _currentTime;
 _monitorReport = _currentTime;
 _deleteObjects = _currentTime;
 _dynLocations = _currentTime;
-_checkRandomSpawns = _currentTime - RANDSPAWN_CHECK_FREQ;
+_checkRandomSpawns = _currentTime - MONITOR_CHECK_RANDSPAWN_FREQ;
 _sideCheck = _currentTime;
-_playerCountTime = _currentTime - UPDATE_PLAYER_COUNT_FREQ;
+_playerCountTime = _currentTime - MONITOR_UPDATE_PLAYER_COUNT_FREQ;
 
 //Setup variables
 _currentPlayerCount = 0;
@@ -60,6 +51,7 @@ _getUptime = {
 _fnc_purgeAndDelete = {
 	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Purging a %1 from A3XAI_monitoredObjects.",(typeOf _this)];};
 	{_this removeAllEventHandlers _x} count ["Killed","HandleDamage","GetIn","GetOut","Fired","Local","Hit"];
+	_this removeAllMPEventHandlers "MPKilled"; 
 	_index = A3XAI_monitoredObjects find _this;
 	if (_index > -1) then {A3XAI_monitoredObjects deleteAt _index;};
 	_index = A3XAI_externalObjectMonitor find _this;
@@ -82,7 +74,7 @@ uiSleep 60;
 while {true} do {
 	//Main cleanup loop
 	_currentTime = diag_tickTime;
-	if ((_currentTime - _cleanDead) > CLEANDEAD_FREQ) then {
+	if ((_currentTime - _cleanDead) > MONITOR_CLEANDEAD_FREQ) then {
 		if (scriptDone _cleanupMain) then {
 			if (_canKillCleanupMain) then {_canKillCleanupMain = false;};
 			_cleanupMain = [_currentTime,_fnc_purgeAndDelete] spawn {
@@ -149,7 +141,7 @@ while {true} do {
 	};
 
 	//Main location cleanup loop
-	if ((_currentTime - _dynLocations) > LOCATION_CLEANUP_FREQ) then {
+	if ((_currentTime - _dynLocations) > MONITOR_LOCATIONCLEANUP_FREQ) then {
 		if (scriptDone _cleanupLocations) then {
 			if (_canKillCleanupLocations) then {_canKillCleanupLocations = false;};
 			_cleanupLocations  = [_currentTime] spawn {
@@ -178,7 +170,7 @@ while {true} do {
 		_dynLocations = _currentTime;
 	};
 
-	if ((_currentTime - _checkRandomSpawns) > RANDSPAWN_CHECK_FREQ) then {
+	if ((_currentTime - _checkRandomSpawns) > MONITOR_CHECK_RANDSPAWN_FREQ) then {
 		if (scriptDone _cleanupRandomSpawns) then {
 			if (_canKillRandomSpawns) then {_canKillRandomSpawns = false;};
 			_cleanupRandomSpawns = [_currentTime] spawn {
@@ -211,7 +203,7 @@ while {true} do {
 		_checkRandomSpawns = _currentTime;
 	};
 	
-	if ((_currentTime - _playerCountTime) > UPDATE_PLAYER_COUNT_FREQ) then {
+	if ((_currentTime - _playerCountTime) > MONITOR_UPDATE_PLAYER_COUNT_FREQ) then {
 		_currentPlayerCount = ({alive _x} count allPlayers);
 		if (A3XAI_HCIsConnected) then {_currentPlayerCount = _currentPlayerCount - 1};
 		if !(_lastPlayerCount isEqualTo _currentPlayerCount) then {

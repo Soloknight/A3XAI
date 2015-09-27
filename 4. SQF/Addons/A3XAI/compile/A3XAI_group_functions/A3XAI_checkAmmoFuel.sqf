@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_unit", "_loadout", "_currentMagazines", "_magazine"];
 
 _unitGroup = _this select 0;

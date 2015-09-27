@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 /*
 	A3XAI Startup
 	
@@ -17,7 +19,7 @@ if (A3XAI_enableHC) then {
 
 //Create default trigger object if AI is spawned without trigger object specified (ie: for custom vehicle AI groups)
 _nul = [] spawn {
-	A3XAI_defaultTrigger = createTrigger ["A3XAI_EmptyDetector",[configFile >> "CfgWorlds" >> worldName,"centerPosition",[0,0,0]] call BIS_fnc_returnConfigEntry,false];
+	A3XAI_defaultTrigger = createTrigger [TRIGGER_OBJECT,[configFile >> "CfgWorlds" >> worldName,"centerPosition",[0,0,0]] call BIS_fnc_returnConfigEntry,false];
 	A3XAI_defaultTrigger enableSimulation false;
 	A3XAI_defaultTrigger setVariable ["isCleaning",true];
 	A3XAI_defaultTrigger setVariable ["patrolDist",100];

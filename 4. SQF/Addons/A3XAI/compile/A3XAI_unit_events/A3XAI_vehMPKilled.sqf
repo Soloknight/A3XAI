@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_vehicle"];
 
 _vehicle = (_this select 0);

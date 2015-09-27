@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup","_vehicle"];
 
 _unitGroup = _this;

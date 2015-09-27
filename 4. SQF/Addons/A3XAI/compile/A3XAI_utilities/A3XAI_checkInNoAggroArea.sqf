@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_inNoAggroArea", "_objectPos"];
 
 _inNoAggroArea = false;

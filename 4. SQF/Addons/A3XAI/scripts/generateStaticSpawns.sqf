@@ -1,10 +1,8 @@
-#define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
-#define PLOTPOLE_RADIUS 300
-#define SERVER_STARTED_INDICATOR "PublicHiveIsLoaded"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_expireTime", "_spawnsCreated", "_startTime", "_cfgWorldName"];
 
-_expireTime = diag_tickTime + 300;
+_expireTime = diag_tickTime + SERVER_START_TIMEOUT;
 waitUntil {uiSleep 3; !isNil "A3XAI_locations_ready" && {(!isNil SERVER_STARTED_INDICATOR) or {diag_tickTime > _expireTime}}};
 
 if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: A3XAI is generating static spawns."];};
@@ -23,25 +21,25 @@ _cfgWorldName = configFile >> "CfgWorlds" >> worldName >> "Names";
 		if !(surfaceIsWater _placePos) then {
 			private ["_nearbldgs"];
 			if ((_placePos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo []) then {
-				_nearbldgs = _placePos nearObjects ["HouseBase",250];
-				_nearBlacklistedAreas = nearestLocations [_placePos,["A3XAI_BlacklistedArea"],1500];
+				_nearbldgs = _placePos nearObjects ["HouseBase",STATIC_SPAWN_OBJECT_RANGE];
+				_nearBlacklistedAreas = nearestLocations [_placePos,[BLACKLIST_OBJECT_GENERAL],1500];
 				_spawnPoints = 0;
 				{
 					_objType = (typeOf _x);
 					_objPos = (getPosATL _x);
-					if (!(surfaceIsWater _objPos) && {(sizeOf _objType) > 15} && {({_objPos in _x} count _nearBlacklistedAreas) isEqualTo 0}) then {
+					if (!(surfaceIsWater _objPos) && {(sizeOf _objType) > STATIC_SPAWN_OBJECT_SIZE_REQ} && {({_objPos in _x} count _nearBlacklistedAreas) isEqualTo 0}) then {
 						_spawnPoints = _spawnPoints + 1;
 					} else {
 						_nearbldgs deleteAt _forEachIndex;
 					};
 				} forEach _nearbldgs;
 				//if (objNull in _nearbldgs) then {_nearbldgs = _nearbldgs - [objNull];};
-				if (_spawnPoints > 5) then {
+				if (_spawnPoints >= 6) then {
 					_aiCount = [0,0];
 					_unitLevel = 0;
 					_radiusA = getNumber (_cfgWorldName >> (_x select 0) >> "radiusA");
 					_radiusB = getNumber (_cfgWorldName >> (_x select 0) >> "radiusB");
-					_patrolRadius = (((_radiusA min _radiusB) max 125) min 300);
+					_patrolRadius = (((_radiusA min _radiusB) max STATIC_SPAWN_MIN_PATROL_RADIUS) min STATIC_SPAWN_MAX_PATROL_RADIUS);
 					_spawnChance = 0;
 					_respawnLimit = -1;
 					call {
@@ -71,10 +69,10 @@ _cfgWorldName = configFile >> "CfgWorlds" >> worldName >> "Names";
 						};
 					};
 					if ((_spawnChance > 0) && {!(_aiCount isEqualTo [0,0])}) then {
-						_trigger = createTrigger ["A3XAI_EmptyDetector", _placePos,false];
-						_trigger setTriggerArea [650, 650, 0, false];
+						_trigger = createTrigger [TRIGGER_OBJECT, _placePos,false];
+						_trigger setTriggerArea [TRIGGER_SIZE_NORMAL,TRIGGER_SIZE_NORMAL,0,false];
 						_trigger setTriggerActivation ["ANY", "PRESENT", true];
-						_trigger setTriggerTimeout [5, 5, 5, true];
+						_trigger setTriggerTimeout [TRIGGER_TIMEOUT_STATIC, true];
 						_trigger setTriggerText _placeName;
 						_statements = format ["0 = [%1,%2,%3,thisTrigger,[],%4] call A3XAI_createInfantryQueue;",_aiCount select 0,_aiCount select 1,_patrolRadius,_unitLevel];
 						_trigger setTriggerStatements ["{if (isPlayer _x) exitWith {1}} count thisList > 0;", _statements, "0 = [thisTrigger] spawn A3XAI_despawn_static;"];

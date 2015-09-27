@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private["_messageName","_messageParameters","_player"];
 _player = _this select 0;
 _messageName = _this select 1;

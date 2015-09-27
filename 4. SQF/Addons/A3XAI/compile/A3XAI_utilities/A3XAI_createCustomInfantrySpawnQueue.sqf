@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 if !((typeName _this) isEqualTo "ARRAY") exitWith {diag_log format ["Error: Wrong arguments sent to %1.",__FILE__]};
 private ["_trigger", "_grpArray", "_infantryQueue","_triggerStatements"];
 
@@ -34,7 +36,7 @@ if (_grpArray isEqualTo []) then {
 	_triggerStatements = (triggerStatements _trigger);
 	_triggerStatements set [1,""];
 	_trigger setTriggerStatements _triggerStatements;
-	_trigger setTriggerArea [750,750,0,false];
+	_trigger setTriggerArea [TRIGGER_SIZE_EXPANDED,TRIGGER_SIZE_EXPANDED,0,false];
 	[_trigger,"A3XAI_staticTriggerArray"] call A3XAI_updateSpawnCount;
 	if (A3XAI_enableDebugMarkers) then {
 		_nul = _trigger call A3XAI_addMapMarker;

@@ -5,7 +5,7 @@
 
 diag_log "[A3XAI] Compiling A3XAI functions.";
 
-if (isNil "SHK_pos_getPos") then {call compile preprocessFile format ["%1\compile\SHK_pos\shk_pos_init.sqf",A3XAI_directory];};
+call compile preprocessFile format ["%1\SHK_pos\A3XAI_SHK_pos_init.sqf",A3XAI_directory];
 
 //A3XAI_behavior
 A3XAI_BIN_taskPatrol = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_behavior\A3XAI_BIN_taskPatrol.sqf",A3XAI_directory];
@@ -54,12 +54,7 @@ A3XAI_UAV_destroyed = compileFinal preprocessFileLineNumbers format ["%1\compile
 A3XAI_UGV_destroyed = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_events\A3XAI_UGV_destroyed.sqf",A3XAI_directory];
 A3XAI_vehDestroyed = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_events\A3XAI_vehDestroyed.sqf",A3XAI_directory];
 A3XAI_vehMPKilled = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_events\A3XAI_vehMPKilled.sqf",A3XAI_directory];
-
-//A3XAI_unit_scripts
-A3XAI_generateLootPool = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_scripts\A3XAI_generateLootPool.sqf",A3XAI_directory];
-A3XAI_generateLoot = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_scripts\A3XAI_generateLoot.sqf",A3XAI_directory];
-A3XAI_generateLoadout = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_scripts\A3XAI_generateLoadout.sqf",A3XAI_directory];
-A3XAI_addGroupManager = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_scripts\A3XAI_addGroupManager.sqf",A3XAI_directory];
+A3XAI_ejectParachute = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_events\A3XAI_ejectParachute.sqf",A3XAI_directory];
 
 //A3XAI_unit_spawning
 A3XAI_addRespawnQueue = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_addRespawnQueue.sqf",A3XAI_directory];
@@ -84,6 +79,10 @@ A3XAI_spawnUnits_random = compileFinal preprocessFileLineNumbers format ["%1\com
 A3XAI_spawnUnits_static = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_spawnUnits_static.sqf",A3XAI_directory];
 A3XAI_spawnVehicleCustom = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_spawnVehicleCustom.sqf",A3XAI_directory];
 A3XAI_spawnVehiclePatrol = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_spawnVehiclePatrol.sqf",A3XAI_directory];
+A3XAI_addVehicleGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_addVehicleGroup.sqf",A3XAI_directory];
+A3XAI_addParaGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_addParaGroup.sqf",A3XAI_directory];
+A3XAI_respawnAIVehicle = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_respawnAIVehicle.sqf",A3XAI_directory];
+A3XAI_cleanupReinforcementGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_unit_spawning\A3XAI_cleanupReinforcementGroup.sqf",A3XAI_directory];
 
 //A3XAI_utilities
 A3XAI_addItem = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addItem.sqf",A3XAI_directory];
@@ -97,13 +96,10 @@ A3XAI_addUGVEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XA
 A3XAI_addUnitEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addUnitEH.sqf",A3XAI_directory];
 A3XAI_addUVUnitEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addUVUnitEH.sqf",A3XAI_directory];
 A3XAI_addVehAirEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addVehAirEH.sqf",A3XAI_directory];
-A3XAI_addVehicleGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addVehicleGroup.sqf",A3XAI_directory];
-A3XAI_addParaGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addParaGroup.sqf",A3XAI_directory];
 A3XAI_chance = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_chance.sqf",A3XAI_directory];
 A3XAI_checkClassname = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_checkClassname.sqf",A3XAI_directory];
 A3XAI_checkInNoAggroArea = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_checkInNoAggroArea.sqf",A3XAI_directory];
 A3XAI_checkIsWeapon = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_checkIsWeapon.sqf",A3XAI_directory];
-A3XAI_cleanupReinforcementGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_cleanupReinforcementGroup.sqf",A3XAI_directory];
 A3XAI_clearVehicleCargo = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_clearVehicleCargo.sqf",A3XAI_directory];
 A3XAI_countVehicleGunners = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_countVehicleGunners.sqf",A3XAI_directory];
 A3XAI_createBlackListArea = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_createBlackListArea.sqf",A3XAI_directory];
@@ -141,7 +137,6 @@ A3XAI_releaseVehicleAllow = compileFinal preprocessFileLineNumbers format ["%1\c
 A3XAI_releaseVehicleNow = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_releaseVehicleNow.sqf",A3XAI_directory];
 A3XAI_reloadVehicleTurrets = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_reloadVehicleTurrets.sqf",A3XAI_directory];
 A3XAI_removeExplosive = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_removeExplosive.sqf",A3XAI_directory];
-A3XAI_respawnAIVehicle = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_respawnAIVehicle.sqf",A3XAI_directory];
 A3XAI_returnNoAggroArea = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_returnNoAggroArea.sqf",A3XAI_directory];
 A3XAI_secureVehicle = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_secureVehicle.sqf",A3XAI_directory];
 A3XAI_sendKillResponse = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_sendKillResponse.sqf",A3XAI_directory];
@@ -152,10 +147,8 @@ A3XAI_setVehicleRegrouped = compileFinal preprocessFileLineNumbers format ["%1\c
 A3XAI_updateSpawnCount = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_updateSpawnCount.sqf",A3XAI_directory];
 A3XAI_updGroupCount = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_updGroupCount.sqf",A3XAI_directory];
 A3XAI_selectRandom = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_selectRandom.sqf",A3XAI_directory];
-A3XAI_UGVSelfRepair = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_UGVSelfRepair.sqf",A3XAI_directory];
 A3XAI_selectRandomWaypoint = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_selectRandomWaypoint.sqf",A3XAI_directory];
 A3XAI_getPosBetween = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_getPosBetween.sqf",A3XAI_directory];
-A3XAI_ejectParachute = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_ejectParachute.sqf",A3XAI_directory];
 A3XAI_debugMarkerLocation = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_debugMarkerLocation.sqf",A3XAI_directory];
 A3XAI_sendExileMessage = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_sendExileMessage.sqf",A3XAI_directory];
 
@@ -177,6 +170,10 @@ A3XAI_antistuck_generic = compileFinal preprocessFileLineNumbers format ["%1\com
 A3XAI_antistuck_land = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_antistuck_land.sqf",A3XAI_directory];
 A3XAI_antistuck_uav = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_antistuck_uav.sqf",A3XAI_directory];
 A3XAI_antistuck_ugv = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_antistuck_ugv.sqf",A3XAI_directory];
+A3XAI_generateLootPool = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLootPool.sqf",A3XAI_directory];
+A3XAI_generateLoot = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLoot.sqf",A3XAI_directory];
+A3XAI_generateLoadout = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLoadout.sqf",A3XAI_directory];
+A3XAI_addGroupManager = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_addGroupManager.sqf",A3XAI_directory];
 
 diag_log "[A3XAI] A3XAI functions compiled.";
 

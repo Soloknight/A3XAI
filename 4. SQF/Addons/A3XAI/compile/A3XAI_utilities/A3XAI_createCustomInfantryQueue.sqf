@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 if !((typeName _this) isEqualTo "ARRAY") exitWith {diag_log format ["Error: Wrong arguments sent to %1 (%2).",__FILE__,_this]};
 if (A3XAI_createCustomSpawnQueue isEqualTo []) then {
 	A3XAI_createCustomSpawnQueue pushBack _this;

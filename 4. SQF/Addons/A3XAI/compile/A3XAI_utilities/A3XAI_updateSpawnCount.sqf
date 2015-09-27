@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_trigger","_arrayString","_triggerArray"];
 _trigger = _this select 0;
 _arrayString = _this select 1;

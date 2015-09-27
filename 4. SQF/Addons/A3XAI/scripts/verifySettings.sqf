@@ -295,20 +295,10 @@ _startTime = diag_tickTime;
 ];
 
 if (A3XAI_verifySettings) then {
-	if !(A3XAI_minAI_capitalCity in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_minAI_capitalCity, resetting to default value."]; A3XAI_minAI_capitalCity = 2};
-	if !(A3XAI_addAI_capitalCity in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_addAI_capitalCity, resetting to default value."]; A3XAI_addAI_capitalCity = 1};
 	if !(A3XAI_unitLevel_capitalCity in [0,1,2,3]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_capitalCity, resetting to default value."]; A3XAI_unitLevel_capitalCity = 1};
-	if !(A3XAI_minAI_city in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_minAI_city, resetting to default value."]; A3XAI_minAI_city = 1};
-	if !(A3XAI_addAI_city in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_addAI_city, resetting to default value."]; A3XAI_addAI_city = 2};
 	if !(A3XAI_unitLevel_city in [0,1,2,3]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_city, resetting to default value."]; A3XAI_unitLevel_city = 1};
-	if !(A3XAI_minAI_village in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_minAI_village, resetting to default value."]; A3XAI_minAI_village = 1};
-	if !(A3XAI_addAI_village in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_addAI_village, resetting to default value."]; A3XAI_addAI_village = 1};
 	if !(A3XAI_unitLevel_village in [0,1,2,3]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_village, resetting to default value."]; A3XAI_unitLevel_village = 0};
-	if !(A3XAI_minAI_remoteArea in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_minAI_remoteArea, resetting to default value."]; A3XAI_minAI_remoteArea = 1};
-	if !(A3XAI_addAI_remoteArea in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_remoteArea, resetting to default value."]; A3XAI_addAI_remoteArea = 1};
 	if !(A3XAI_unitLevel_remoteArea in [0,1,2,3]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_remoteArea, resetting to default value."]; A3XAI_unitLevel_remoteArea = 2};
-	if !(A3XAI_minAI_wilderness in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_minAI_remoteArea, resetting to default value."]; A3XAI_minAI_wilderness = 1};
-	if !(A3XAI_addAI_wilderness in [0,1,2,3,4,5]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_remoteArea, resetting to default value."]; A3XAI_addAI_wilderness = 1};
 	if !(A3XAI_unitLevel_wilderness in [0,1,2,3]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_unitLevel_remoteArea, resetting to default value."]; A3XAI_unitLevel_wilderness = 2};
 	if !((count A3XAI_levelChancesAir) isEqualTo 4) then {diag_log format ["[A3XAI] Error found in variable A3XAI_levelChancesAir, resetting to default value."]; A3XAI_levelChancesAir = [0.00,0.50,0.35,0.15]};
 	if !((count A3XAI_levelChancesLand) isEqualTo 4) then {diag_log format ["[A3XAI] Error found in variable A3XAI_levelChancesLand, resetting to default value."]; A3XAI_levelChancesAir = [0.00,0.50,0.35,0.15]};

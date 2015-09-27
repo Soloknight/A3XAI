@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup","_waypoint","_pos","_wpStatements"];
 
 _unitGroup = _this select 0;

@@ -1,5 +1,4 @@
-#define PLAYER_UNITS "Exile_Unit_Player"
-#define PLAYER_DISTANCE_WITH_LOS 200
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_marker","_vehicleType","_unitLevel","_unitGroup","_driver","_vehicle","_gunnerSpots","_spawnPos","_patrolDist","_isAirVehicle","_unitType","_vehiclePosition","_maxUnits","_maxCargoUnits","_maxGunnerUnits","_keepLooking","_gunnersAdded","_velocity","_direction"];
 
@@ -14,7 +13,7 @@ _maxCargoUnits = _maxUnits select 0;
 _maxGunnerUnits = _maxUnits select 1;
 _isAirVehicle = (_vehicleType isKindOf "Air");
 _vehiclePosition = [];
-_roadSearching = 1; 	//SHK_pos will search for roads, and return random position if none found.
+_roadSearching = 1; 	//A3XAI_SHK_pos will search for roads, and return random position if none found.
 _waterPosAllowed = 0; 	//do not allow water position for land vehicles.
 _spawnMode = "NONE";
 
@@ -30,8 +29,8 @@ if (_isAirVehicle) then {
 _keepLooking = true;
 _waitTime = 10;
 while {_keepLooking} do {
-	_vehiclePosition = [_spawnPos,random _patrolDist,random(360),_waterPosAllowed,[_roadSearching,200]] call SHK_pos;
-	if (({if (isPlayer _x) exitWith {1}} count (_vehiclePosition nearEntities [[PLAYER_UNITS,"AllVehicles"],PLAYER_DISTANCE_WITH_LOS])) isEqualTo 0) then {
+	_vehiclePosition = [_spawnPos,random _patrolDist,random(360),_waterPosAllowed,[_roadSearching,200]] call A3XAI_SHK_pos;
+	if (({if (isPlayer _x) exitWith {1}} count (_vehiclePosition nearEntities [[PLAYER_UNITS,"AllVehicles"],PLAYER_DISTANCE_SPAWN_AIVEHICLE])) isEqualTo 0) then {
 		_keepLooking = false; //safe area found, continue to spawn the vehicle and crew
 	} else {
 		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Waiting %1 seconds for area at %2 to have no players nearby to spawn custom AI vehicle %3.",_waitTime,_marker,_vehicleType]};
@@ -93,7 +92,7 @@ _driver assignAsDriver _vehicle;
 _driver setVariable ["isDriver",true];
 _unitGroup selectLeader _driver;
 
-if (_isAirVehicle) then {_vehicle flyInHeight 115};
+if (_isAirVehicle) then {_vehicle flyInHeight FLYINHEIGHT_AIR_CUSTOM};
 
 _gunnersAdded = [_unitGroup,_unitLevel,_vehicle,_maxGunnerUnits] call A3XAI_addVehicleGunners;
 if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Spawned %1 gunner units for %2 vehicle %3.",_gunnersAdded,_unitGroup,_vehicleType];};

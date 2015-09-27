@@ -1,3 +1,4 @@
+#include "\A3XAI\globaldefines.hpp"
 
 waitUntil {uiSleep 0.3; (!isNil "A3XAI_locations_ready" && {!isNil "A3XAI_classnamesVerified"})};
 

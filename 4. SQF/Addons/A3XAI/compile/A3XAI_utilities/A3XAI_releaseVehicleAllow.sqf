@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_object","_vehicleClass"];
 
 _object = _this;
@@ -5,8 +7,8 @@ _object = _this;
 _vehicleClass = [configFile >> "CfgVehicles" >> (typeOf _object),"vehicleClass",""] call BIS_fnc_returnConfigEntry;
 if ((toLower _vehicleClass) isEqualTo "autonomous") exitWith {};
 	
+_object removeAllEventHandlers "GetIn";
 if (isDedicated) then {
-	_object removeAllEventHandlers "GetIn";
 	_object addEventHandler ["GetIn",{
 		if (isPlayer (_this select 2)) then {
 			(_this select 0) call A3XAI_releaseVehicleNow;
@@ -15,7 +17,6 @@ if (isDedicated) then {
 };
 
 if (local _object) then {
-	_object removeAllEventHandlers "GetIn";
 	_object lock 1;
 	_object enableCopilot true;
 	_object enableRopeAttach true;

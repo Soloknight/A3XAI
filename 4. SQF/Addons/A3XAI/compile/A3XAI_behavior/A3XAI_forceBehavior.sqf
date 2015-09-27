@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_action", "_unitGroup"];
 
 _action = _this select 1;
@@ -14,6 +16,14 @@ if (_action isEqualTo "IgnoreEnemies") exitWith {
 if (_action isEqualTo "Behavior_Reset") exitWith {
 	_unitGroup setBehaviour "AWARE";
 	_unitGroup setCombatMode "YELLOW";
+
+	true
+};
+
+if (_action isEqualTo "DefendOnly") exitWith {
+	_unitGroup setBehaviour "AWARE";
+	_unitGroup setCombatMode "GREEN";
+	{_x doWatch objNull} forEach (units _unitGroup);
 
 	true
 };

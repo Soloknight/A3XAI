@@ -1,5 +1,4 @@
-#define RADIO_ITEM "ItemRadio"
-#define PLAYER_UNITS "Exile_Unit_Player"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup","_targetPlayer","_startPos","_chaseDistance","_enableHCReady","_nearBlacklistedAreas"];
 
@@ -23,10 +22,7 @@ if (_unitGroup getVariable ["HC_Ready",false]) then { //If HC mode enabled and A
 
 _startPos = _unitGroup getVariable ["trigger",(getPosASL (leader _unitGroup))];
 _chaseDistance = _unitGroup getVariable ["patrolDist",250];
-_nearBlacklistedAreas = nearestLocations [_targetPlayer,["A3XAI_BlacklistedArea"],1500];
-
-#define TRANSMIT_RANGE 50 //distance to broadcast radio text around target player
-#define RECEIVE_DIST 200 //distance requirement to receive message from AI group leader
+_nearBlacklistedAreas = nearestLocations [_targetPlayer,[BLACKLIST_OBJECT_GENERAL],1500];
 
 _unitGroup setFormDir ([(leader _unitGroup),_targetPlayer] call BIS_fnc_dirTo);
 
@@ -68,8 +64,8 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 		
 		if ((A3XAI_radioMsgs) && {0.7 call A3XAI_chance}) then {
 			_leader = (leader _unitGroup);
-			if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST}) then {
-				_nearbyUnits = _targetPlayerPos nearEntities [[PLAYER_UNITS,"LandVehicle"],TRANSMIT_RANGE];
+			if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST_RADIO_HUNTKILLER}) then {
+				_nearbyUnits = _targetPlayerPos nearEntities [[PLAYER_UNITS,"LandVehicle"],TRANSMIT_RANGE_RADIO_HUNTKILLER];
 				if !(_nearbyUnits isEqualTo []) then {	//Have at least 1 player to send a message to
 					if ((_unitGroup getVariable ["GroupSize",0]) > 1) then {	//Have at least 1 AI unit to send a message from
 						_speechIndex = (floor (random 3));
@@ -120,10 +116,10 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 			
 			if (A3XAI_radioMsgs) then {
 				_leader = (leader _unitGroup);
-				if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST} && {((_unitGroup getVariable ["GroupSize",0]) > 1)} && {isPlayer _targetPlayer}) then {
+				if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST_RADIO_HUNTKILLER} && {((_unitGroup getVariable ["GroupSize",0]) > 1)} && {isPlayer _targetPlayer}) then {
 					_radioText = if (alive _targetPlayer) then {4} else {5};
 					_radioSpeech = [_radioText,[name (leader _unitGroup)]];
-					_nearbyUnits = (getPosASL _targetPlayer) nearEntities [["LandVehicle",PLAYER_UNITS],TRANSMIT_RANGE];
+					_nearbyUnits = (getPosASL _targetPlayer) nearEntities [["LandVehicle",PLAYER_UNITS],TRANSMIT_RANGE_RADIO_HUNTKILLER];
 					{
 						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 							[_x,_radioSpeech] call A3XAI_radioSend;

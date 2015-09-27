@@ -1,4 +1,4 @@
-#define PLAYER_GROUP_SIDE resistance
+#include "\A3XAI\globaldefines.hpp"
 
 /*
 	A3XAI Server Initialization File

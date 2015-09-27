@@ -1,13 +1,5 @@
-/*
-	despawnBandits
-	
-	Description: Deletes all AI units spawned by a trigger once all players leave the trigger area.
-	
-	Usage: Called by a static trigger when all players have left the trigger area.
-	
-	Last updated: 10:16 PM 5/26/2014
-	
-*/
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_trigger","_grpArray","_isCleaning","_grpCount","_triggerStatements","_deactStatements","_permDelete"];
 
 _trigger = _this select 0;							//Get the trigger object
@@ -77,7 +69,7 @@ if !(_permDelete) then {
 	_trigger setVariable ["GroupArray",_grpArray - [grpNull]];
 	_trigger setVariable ["isCleaning",false];
 	_trigger setVariable ["unitLevelEffective",(_trigger getVariable ["unitLevel",1])];
-	_trigger setTriggerArea [650,650,0,false];
+	_trigger setTriggerArea [TRIGGER_SIZE_NORMAL,TRIGGER_SIZE_NORMAL,0,false];
 	_trigger setTriggerStatements (_trigger getVariable "triggerStatements"); //restore original trigger statements
 	if !((_trigger getVariable ["respawnLimitOriginal",-1]) isEqualTo -1) then {_trigger setVariable ["respawnLimit",_trigger getVariable ["respawnLimitOriginal",-1]];};
 	if (A3XAI_enableDebugMarkers) then {

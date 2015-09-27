@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_mapMarkerArray","_objectString"];
 _mapMarkerArray = missionNamespace getVariable ["A3XAI_mapMarkerArray",[]];
 _objectString = str (_this);

@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 /*
 =======================================================================================================================
 Script: BIN_taskPatrol.sqf v1.3
@@ -113,7 +115,6 @@ while {count _wp_array < _wp_count} do
 
 	_wp_pos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 	
-	//Test begin
 	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {_noAggroArea && {_wp_pos call A3XAI_checkInNoAggroArea}}) then {
 		_retry = true;
 		_retryCount = 0;
@@ -131,14 +132,13 @@ while {count _wp_array < _wp_count} do
 
 			_retryPos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 			_retryCount = _retryCount + 1;
-			if ((!surfaceIsWater _retryPos) && {_noAggroArea && {!(_wp_pos call A3XAI_checkInNoAggroArea)}}) then {
+			if ((!surfaceIsWater _retryPos) && {_noAggroArea && {!(_retryPos call A3XAI_checkInNoAggroArea)}}) then {
 				_retry = false;
 				_wp_pos = _retryPos;
 			};
 		};
 	};
-	
-	//Test end
+
 	_a = 0 + (_wp_pos select 0);
 	_b = 0 + (_wp_pos select 1);
 	

@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_vehicle", "_unitsAlive", "_unitLevel", "_trigger", "_rearm" ,"_pos", "_posReflected"];
 	
 _unitGroup = _this select 0;
@@ -11,7 +13,7 @@ if (_unitsAlive isEqualTo 0) exitWith {diag_log format ["A3XAI Error: %1 cannot 
 
 {
 	if (alive _x) then {
-		if !(canMove _x) then {_x setHit ["legs",0]};
+		if ((_x getHit "legs") > 0) then {_x setHit ["legs",0]};
 		unassignVehicle _x;
 	};
 } count (units _unitGroup);
@@ -24,30 +26,24 @@ if (_pos call A3XAI_checkInNoAggroArea) then {
 	_pos = _pos call A3XAI_getSafePosReflected;
 	[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 	if !(_pos isEqualTo []) then {
-		_tempWP = [_unitGroup,_pos,"if !(local this) exitWith {}; (group this) call A3XAI_moveToPosAndPatrol;"] call A3XAI_addTemporaryWaypoint;
+		_tempWP = [_unitGroup,_pos,"if !(local this) exitWith {}; [(group this),PATROL_DIST_VEHICLEGROUP] call A3XAI_moveToPosAndPatrol;"] call A3XAI_addTemporaryWaypoint;
 	};
 } else {
 	_unitGroup setCombatMode "YELLOW";
 	_unitGroup setBehaviour "AWARE";
 	[_unitGroup,_pos] call A3XAI_setFirstWPPos;
-	0 = [_unitGroup,_pos,75] spawn A3XAI_BIN_taskPatrol;
+	0 = [_unitGroup,_pos,PATROL_DIST_VEHICLEGROUP] spawn A3XAI_BIN_taskPatrol;
 };
 
 if !(_pos isEqualTo []) then {
 	_unitLevel = _unitGroup getVariable ["unitLevel",1];
-	_trigger = createTrigger ["A3XAI_EmptyDetector",_pos,false];
-	_trigger setTriggerArea [600, 600, 0, false];
+	_trigger = createTrigger [TRIGGER_OBJECT,_pos,false];
+	_trigger setTriggerArea [TRIGGER_SIZE_SMALL,TRIGGER_SIZE_SMALL,0,false];
 	_trigger setTriggerActivation ["ANY", "PRESENT", true];
-	_trigger setTriggerTimeout [5, 5, 5, true];
+	_trigger setTriggerTimeout [TRIGGER_TIMEOUT_VEHICLEGROUP, true];
 	_trigger setTriggerText (format ["AI Vehicle Group %1",mapGridPosition _vehicle]);
 	_trigger setTriggerStatements ["{if (isPlayer _x) exitWith {1}} count thisList != 0;","","0 = [thisTrigger] spawn A3XAI_despawn_static;"];
-	_trigger setVariable ["isCleaning",false];
-	_trigger setVariable ["GroupArray",[_unitGroup]];
-	_trigger setVariable ["unitLevel",_unitLevel];
-	_trigger setVariable ["maxUnits",[_unitsAlive,0]];
-	_trigger setVariable ["respawn",false]; 					//landed AI units should never respawn
-	_trigger setVariable ["permadelete",true]; 	//units should be permanently despawned
-	_trigger setVariable ["spawnType","vehiclecrew"];
+	0 = [4,_trigger,[_unitGroup],PATROL_DIST_VEHICLEGROUP,_unitLevel,[_unitsAlive,0]] call A3XAI_initializeTrigger;
 
 	_unitGroup setVariable ["GroupSize",_unitsAlive];
 	_unitGroup setVariable ["unitType","vehiclecrew"];
@@ -57,7 +53,7 @@ if !(_pos isEqualTo []) then {
 	0 = [_trigger] spawn A3XAI_despawn_static;
 
 	if !(local _unitGroup) then {
-		A3XAI_sendGroupTriggerVars_PVC = [_unitGroup,[_unitGroup],75,1,1,[_unitsAlive,0],0,"vehiclecrew",false,true];
+		A3XAI_sendGroupTriggerVars_PVC = [_unitGroup,[_unitGroup],PATROL_DIST_VEHICLEGROUP,1,1,[_unitsAlive,0],0,"vehiclecrew",false,true];
 		A3XAI_HCObjectOwnerID publicVariableClient "A3XAI_sendGroupTriggerVars_PVC";
 	};
 

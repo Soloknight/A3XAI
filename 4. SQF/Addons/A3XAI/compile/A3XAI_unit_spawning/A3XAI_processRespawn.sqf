@@ -1,5 +1,4 @@
-//Respawn handler stage 2
-#define PROCESSING_WAIT_TIME 5 //Minimum time delay between respawns.
+#include "\A3XAI\globaldefines.hpp"
 
 waitUntil {uiSleep 3; diag_tickTime > A3XAI_nextRespawnTime};
 
@@ -11,33 +10,27 @@ while {(count A3XAI_respawnQueue) > 0} do {
 	private ["_minDelay","_delay"];
 
 	_minDelay = -1;
-	//diag_log format ["DEBUG: Contents of respawn queue before cleanup stage 1: %1.",A3XAI_respawnQueue];
 	//Remove expired entries before proceeding.
 	{
 		if (((typeName (_x select 3)) isEqualTo "GROUP") && {(isNull (_x select 3))}) then {
-			A3XAI_respawnQueue set [_forEachIndex,objNull];
+			A3XAI_respawnQueue deleteAt _forEachIndex;
 		};
 	} forEach A3XAI_respawnQueue;
-	//diag_log format ["DEBUG: Contents of respawn queue before cleanup stage 2: %1.",A3XAI_respawnQueue];
-	if (objNull in A3XAI_respawnQueue) then {
-		A3XAI_respawnQueue = A3XAI_respawnQueue - [objNull];
-		//diag_log "DEBUG :: Cleaned despawned groups from respawn queue.";
-	};
-	//diag_log format ["DEBUG: Contents of respawn queue after cleanup: %1.",A3XAI_respawnQueue];
-	
+
 	//Begin examining queue entries.
-	for "_i" from 0 to ((count A3XAI_respawnQueue) - 1) do {
-		_timeToRespawn = (A3XAI_respawnQueue select _i) select 0;
+	{
+		_currentRespawn = (A3XAI_respawnQueue select _forEachIndex);
+		_timeToRespawn = _currentRespawn select 0;
 		//If enough time has passed to respawn the group.
 		if (diag_tickTime > _timeToRespawn) then {
-			_mode = (A3XAI_respawnQueue select _i) select 1;
+			_mode = _currentRespawn select 1;
 			call {
 				if (_mode isEqualTo 0) exitWith {
 					//Infantry AI respawn
-					_trigger = (A3XAI_respawnQueue select _i) select 2;
-					_unitGroup = (A3XAI_respawnQueue select _i) select 3;
+					_trigger = _currentRespawn select 2;
+					_unitGroup = _currentRespawn select 3;
 					_grpArray = _trigger getVariable ["GroupArray",[]];
-					if ((_unitGroup in _grpArray) && {((_unitGroup getVariable ["GroupSize",0]) isEqualTo 0)}) then {
+					if ((_unitGroup in _grpArray) && {((_unitGroup getVariable ["GroupSize",0]) < 1)}) then {
 						if ((triggerStatements _trigger select 1) isEqualTo "") then {
 							//Trigger is active, so respawn the group
 							_maxUnits = _trigger getVariable ["maxUnits",[1,0]];
@@ -55,20 +48,19 @@ while {(count A3XAI_respawnQueue) > 0} do {
 				};
 				if (_mode isEqualTo 1) exitWith {
 					//Custom vehicle AI respawn
-					_respawnParams = (A3XAI_respawnQueue select _i) select 2;
+					_respawnParams = _currentRespawn select 2;
 					_nul = _respawnParams spawn A3XAI_spawnVehicleCustom;
-					if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning custom AI vehicle patrol with params %1",((A3XAI_respawnQueue select _i) select 2)]};
+					if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning custom AI vehicle patrol with params %1",((A3XAI_respawnQueue select _forEachIndex) select 2)]};
 				};
 				if (_mode isEqualTo 2) exitWith {
 					//Vehicle AI patrol respawn
-					_vehicleTypeOld = (A3XAI_respawnQueue select _i) select 2;
+					_vehicleTypeOld = _currentRespawn select 2;
 					if (_vehicleTypeOld isKindOf "Air") then { //Air-type vehicle AI patrol respawn
 						A3XAI_heliTypesUsable pushBack _vehicleTypeOld;
 						_index = floor (random (count A3XAI_heliTypesUsable));
 						_vehicleTypeNew = A3XAI_heliTypesUsable select _index;
 						_nul = _vehicleTypeNew spawn A3XAI_spawnVehiclePatrol;
-						A3XAI_heliTypesUsable set [_index,objNull];
-						A3XAI_heliTypesUsable = A3XAI_heliTypesUsable - [objNull];
+						A3XAI_heliTypesUsable deleteAt _index;
 						if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning AI air vehicle type patrol %1.",_vehicleTypeNew]};
 					} else {
 						if (_vehicleTypeOld isKindOf "LandVehicle") then { //Land-type vehicle AI patrol respawn
@@ -76,22 +68,20 @@ while {(count A3XAI_respawnQueue) > 0} do {
 							_index = floor (random (count A3XAI_vehTypesUsable));
 							_vehicleTypeNew = A3XAI_vehTypesUsable select _index;	
 							_nul = _vehicleTypeNew spawn A3XAI_spawnVehiclePatrol;
-							A3XAI_vehTypesUsable set [_index,objNull];
-							A3XAI_vehTypesUsable = A3XAI_vehTypesUsable - [objNull];
+							A3XAI_vehTypesUsable deleteAt _index;
 							if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning AI land vehicle patrol type %1.",_vehicleTypeNew]};
 						};
 					};
 				};
 				if (_mode isEqualTo 3) exitWith {
 					//UAV/UGV respawn
-					_vehicleTypeOld = (A3XAI_respawnQueue select _i) select 2;
+					_vehicleTypeOld = _currentRespawn select 2;
 					if (_vehicleTypeOld isKindOf "Air") then {
 						A3XAI_UAVTypesUsable pushBack _vehicleTypeOld;
 						_index = floor (random (count A3XAI_UAVTypesUsable));
 						_vehicleTypeNew = A3XAI_UAVTypesUsable select _index;
 						_nul = _vehicleTypeNew spawn A3XAI_spawn_UV_patrol;
-						A3XAI_UAVTypesUsable set [_index,objNull];
-						A3XAI_UAVTypesUsable = A3XAI_UAVTypesUsable - [objNull];
+						A3XAI_UAVTypesUsable deleteAt _index;
 						if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning UAV patrol %1.",_vehicleTypeNew]};
 					} else {
 						if (_vehicleTypeOld isKindOf "LandVehicle") then {
@@ -99,18 +89,17 @@ while {(count A3XAI_respawnQueue) > 0} do {
 							_index = floor (random (count A3XAI_UGVTypesUsable));
 							_vehicleTypeNew = A3XAI_UGVTypesUsable select _index;	
 							_nul = _vehicleTypeNew spawn A3XAI_spawn_UV_patrol;
-							A3XAI_UGVTypesUsable set [_index,objNull];
-							A3XAI_UGVTypesUsable = A3XAI_UGVTypesUsable - [objNull];
+							A3XAI_UGVTypesUsable deleteAt _index;
 							if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Respawning UGV patrol type %1.",_vehicleTypeNew]};
 						};
 					};
 				};
 			};
-			A3XAI_respawnQueue set [_i,objNull];
-			uiSleep PROCESSING_WAIT_TIME;
+			A3XAI_respawnQueue deleteAt _forEachIndex;
+			uiSleep TIME_PER_RESPAWN_PROCESSING;
 		} else {
 			//Find shortest delay to next group respawn.
-			_delay = ((_timeToRespawn - diag_tickTime) max PROCESSING_WAIT_TIME);
+			_delay = ((_timeToRespawn - diag_tickTime) max TIME_PER_RESPAWN_PROCESSING);
 			//diag_log format ["DEBUG :: Comparing new respawn time %1 with previous %2.",_delay,_minDelay];
 			if (_minDelay > 0) then {
 				//If next delay time is smaller than the current minimum delay, use it instead.
@@ -124,12 +113,7 @@ while {(count A3XAI_respawnQueue) > 0} do {
 				//diag_log format ["DEBUG :: Set respawn interval to %1 seconds.",_minDelay];
 			};
 		};
-	};
-	//Remove processed entries
-	if (objNull in A3XAI_respawnQueue) then {
-		A3XAI_respawnQueue = A3XAI_respawnQueue - [objNull];
-		//diag_log "DEBUG :: Cleaned respawned groups from respawn queue.";
-	};
+	} forEach A3XAI_respawnQueue;
 	if (_minDelay > -1) then {
 		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: %1 groups left in respawn queue. Next group is scheduled to respawn in %2 seconds.",(count A3XAI_respawnQueue),_minDelay];};
 		uiSleep _minDelay;

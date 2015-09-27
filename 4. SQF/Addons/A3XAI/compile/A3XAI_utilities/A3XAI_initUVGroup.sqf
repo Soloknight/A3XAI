@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_UAVGroup", "_unitType", "_unitGroup"];
 
 _UAVGroup = _this select 0;

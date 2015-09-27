@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private["_unitGroup","_protect","_unitType"];
 _unitType = _this select 0;
 

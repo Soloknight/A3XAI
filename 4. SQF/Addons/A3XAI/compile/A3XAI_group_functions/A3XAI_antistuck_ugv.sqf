@@ -1,4 +1,4 @@
-#define NEAREST_ENEMY_RANGE 300
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup", "_vehicle", "_stuckCheckTime", "_checkPos", "_tooClose", "_wpSelect"];
 
@@ -10,7 +10,7 @@ if (isNull _vehicle) exitWith {};
 
 _checkPos = (getPosATL _vehicle);
 _leader = (leader _unitGroup);
-if ((((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_RANGE) or {_checkPos call A3XAI_checkInNoAggroArea}) && {((_unitGroup getVariable ["antistuckPos",[0,0,0]]) distance _checkPos) < 100}) then {
+if ((((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_LAND) or {_checkPos call A3XAI_checkInNoAggroArea}) && {((_unitGroup getVariable ["antistuckPos",[0,0,0]]) distance _checkPos) < 100}) then {
 	if (canMove _vehicle) then {
 		[_unitGroup] call A3XAI_fixStuckGroup;
 		[_unitGroup,0] setWaypointPosition [_checkPos,0];

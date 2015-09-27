@@ -1,3 +1,4 @@
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_trigger","_triggerLocation","_isForceDespawn","_grpArray","_canDespawn","_triggerExists","_triggerStatements","_deactStatements"];
 

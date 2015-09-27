@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_vehicle", "_gunnerCount"];
 
 _vehicle = _this;

@@ -1,9 +1,7 @@
-#define PLAYER_UNITS "Exile_Unit_Player"
-#define PLAYER_DISTANCE_NO_LOS 200
-#define PLAYER_DISTANCE_WITH_LOS 300
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup","_trigger","_patrolDist","_spawnPositions","_spawnPos","_startTime","_maxUnits","_totalAI","_aiGroup","_unitLevel","_unitLevelEffective", "_checkPos","_spawnRadius",
-"_unitType","_spawnChance"];
+"_unitType","_spawnChance","_playerDistNoLOS","_playerDistWithLOS","_isCustomGroup"];
 
 _startTime = diag_tickTime;
 
@@ -23,12 +21,16 @@ if (_unitType isEqualTo "") then {
 	_unitGroup setVariable ["unitType",_unitType];
 };
 
+_isCustomGroup = _trigger getVariable ["isCustom",false];
+_playerDistWithLOS = if (_isCustomGroup) then {PLAYER_DISTANCE_WITH_LOS_STATIC_CUSTOM} else {PLAYER_DISTANCE_WITH_LOS_STATIC};
+_playerDistNoLOS = if (_isCustomGroup) then {PLAYER_DISTANCE_NO_LOS_STATIC_CUSTOM} else {PLAYER_DISTANCE_NO_LOS_STATIC};
+
 _totalAI = 0;
 _spawnPos = [];
 _checkPos = false;
-_spawnChance = ((_trigger getVariable ["spawnChance",1]) * A3XAI_spawnChanceMultiplier);
+_spawnChance = if (_isCustomGroup) then {_trigger getVariable ["spawnChance",1]} else {(_trigger getVariable ["spawnChance",1]) * A3XAI_spawnChanceMultiplier};
 
-if ((_spawnChance call A3XAI_chance) or {_trigger getVariable ["isCustom",false]}) then {
+if (_spawnChance call A3XAI_chance) then {
 	_totalAI = ((_maxUnits select 0) + round(random (_maxUnits select 1)));
 	if ((count _spawnPositions) > 0) then {
 		_spawnPos = _spawnPositions call A3XAI_findSpawnPos;
@@ -39,12 +41,12 @@ if ((_spawnChance call A3XAI_chance) or {_trigger getVariable ["isCustom",false]
 		_spawnRadius = _patrolDist;
 
 		while {_continue && {(_attempts < 3)}} do {
-			_spawnPosSelected = [(getPosATL _trigger),random (_spawnRadius),random(360),0] call SHK_pos;
+			_spawnPosSelected = [(getPosATL _trigger),random (_spawnRadius),random(360),0] call A3XAI_SHK_pos;
 			_spawnPosSelASL = ATLToASL _spawnPosSelected;
 			if ((count _spawnPosSelected) isEqualTo 2) then {_spawnPosSelected set [2,0];};
 			if (
 				!((_spawnPosSelASL) call A3XAI_posInBuilding) && 
-				{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < PLAYER_DISTANCE_NO_LOS)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"],PLAYER_DISTANCE_WITH_LOS])) isEqualTo 0}
+				{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < _playerDistNoLOS)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"],_playerDistWithLOS])) isEqualTo 0}
 			) then {
 				_spawnPos = _spawnPosSelected;
 				_continue = false;

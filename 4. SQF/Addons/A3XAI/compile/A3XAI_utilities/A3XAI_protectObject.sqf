@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_objectMonitor","_object","_index"];
 _object = _this;
 

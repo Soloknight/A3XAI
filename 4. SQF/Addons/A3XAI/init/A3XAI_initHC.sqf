@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 /*
 	A3XAI Server Initialization File
 	

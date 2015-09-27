@@ -1,6 +1,4 @@
-#define GRENADE_AMMO_3RND "3Rnd_HE_Grenade_shell"
-#define GRENADE_AMMO_1RND "1Rnd_HE_Grenade_shell"
-#define FIRST_AID_ITEM_AI "FirstAidKit"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unit", "_unitLevel", "_unitLevelInvalid", "_loadout", "_weaponSelected", "_unitLevelString", "_uniforms", "_uniformItem", "_backpackChance", "_backpacks", "_backpackItem", 
 "_vestChance", "_vests", "_vestItem", "_headgearChance", "_headgears", "_headgearItem", "_magazine", "_useGL", "_weaponMuzzles", "_GLWeapon", "_GLMagazines", "_isRifle", "_opticsList", 

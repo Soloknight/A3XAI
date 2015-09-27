@@ -1,5 +1,4 @@
-#define RADIO_ITEM "ItemRadio"
-#define PLAYER_UNITS "Exile_Unit_Player"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup","_vehicle","_canCall"];
 _unitGroup = _this select 0;
@@ -18,9 +17,9 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UGVCallReinfor
 		private ["_detected","_detectOrigin","_startPos","_vehPos","_nearNoAggroAreas","_playerPos","_canReveal"];
 		_vehPos = getPosATL _vehicle;
 		_startPos = getPosATL _vehicle;
-		_canReveal = !((combatMode _unitGroup) isEqualTo "BLUE");
-		_detectOrigin = [_startPos,0,getDir _vehicle,1] call SHK_pos;
-		_detected = _detectOrigin nearEntities [[PLAYER_UNITS,"LandVehicle"],250];
+		_canReveal = ((combatMode _unitGroup) in ["YELLOW","RED"]);
+		_detectOrigin = [_startPos,0,getDir _vehicle,1] call A3XAI_SHK_pos;
+		_detected = _detectOrigin nearEntities [[PLAYER_UNITS,"LandVehicle"],DETECT_RANGE_UGV];
 		if ((count _detected) > 5) then {_detected resize 5};
 		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
 		{
@@ -47,7 +46,7 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UGVCallReinfor
 			};
 			uiSleep 0.1;
 		} forEach _detected;
-		if (((_vehicle distance _detectStartPos) > 300) or {_vehicle getVariable ["vehicle_disabled",false]}) exitWith {};
+		if (((_vehicle distance2D _detectStartPos) > DETECT_LENGTH_UGV_2D) or {_vehicle getVariable ["vehicle_disabled",false]}) exitWith {};
 		uiSleep 15;
 	};
 };

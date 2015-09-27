@@ -1,5 +1,4 @@
-#define NO_AGGRO_AREA_SIZE 900
-#define BLACKLIST_AREA_SIZE 800
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_cfgWorldName","_startTime","_allPlaces","_allLocations","_traderCityPositions","_traderCityMarkers"];
 
@@ -42,6 +41,7 @@ if (_traderCityPositions isEqualTo []) then {
 			if ((typeName _x) != "ARRAY") exitWith {diag_log "A3XAI Error: Non-array value found in A3XAI_traderAreaLocations";};
 			if ((count _x) < 2) exitWith {diag_log "A3XAI Error: Array value with fewer than 2 elements found in A3XAI_traderAreaLocations";};
 			_traderCityPositions pushBack _x;
+			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader location at %1",_x];};
 		};
 	} forEach A3XAI_traderAreaLocations;
 };
@@ -58,14 +58,14 @@ if (_traderCityPositions isEqualTo []) then {
 	if (_placeType in ["namecitycapital","namecity","namevillage","namelocal"]) then {
 		_placeName = getText (_cfgWorldName >> _x >> "name");
 		_placePos = getArray (_cfgWorldName >> _x >> "position");
-		_isAllowedPos = (({(_placePos distance _x) < NO_AGGRO_AREA_SIZE} count _traderCityPositions) isEqualTo 0);
+		_isAllowedPos = (({(_placePos distance2D _x) < NO_AGGRO_AREA_SIZE} count _traderCityPositions) isEqualTo 0);
 		if (_isAllowedPos) then {
 			A3XAI_locations pushBack [_placeName,_placePos,_placeType];
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Added location %1 (type: %2, pos: %3) to location list.",_placeName,_placeType,_placePos];};
 			if !(_placeName in A3XAI_waypointBlacklistAir) then {A3XAI_locationsAir pushBack [_placeName,_placePos,_placeType];};
 			if !((_placeName in A3XAI_waypointBlacklistLand) && {!(surfaceIsWater _placePos)}) then {A3XAI_locationsLand pushBack [_placeName,_placePos,_placeType];};
 		} else {
-			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: %1 not in allowed position. Blacklist (Air): %2, Blacklist (Land): %3.",_placeName,!((toLower _placeName) in A3XAI_waypointBlacklistAir),!((toLower _placeName) in A3XAI_waypointBlacklistLand)];};
+			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: %1 not in allowed position. Blacklist (Air): %2, Blacklist (Land): %3. Trader: %4.",_placeName,!((toLower _placeName) in A3XAI_waypointBlacklistAir),!((toLower _placeName) in A3XAI_waypointBlacklistLand),(({(_placePos distance2D _x) < NO_AGGRO_AREA_SIZE} count _traderCityPositions) isEqualTo 0)];};
 		};
 		_allLocations pushBack [_placeName,_placePos,_placeType];
 	};

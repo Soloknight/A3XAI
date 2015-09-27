@@ -1,4 +1,4 @@
-#define FIRST_AID_ITEM_PLAYER "Exile_Item_InstaDoc"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup","_lootPool","_groupSize"];
 

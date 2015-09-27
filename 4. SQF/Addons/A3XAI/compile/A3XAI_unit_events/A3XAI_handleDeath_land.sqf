@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_victim","_killer","_vehicle","_unitGroup","_groupIsEmpty"];
 
 _victim = _this select 0;

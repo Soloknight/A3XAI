@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_startTime", "_items", "_vestsLevel0", "_vestsLevel1", "_vestsLevel2", "_vestsLevel3", "_itemLevel"];
 
 _startTime = diag_tickTime;

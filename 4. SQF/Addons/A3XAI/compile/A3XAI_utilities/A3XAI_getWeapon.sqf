@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitLevel", "_weaponIndices", "_weaponList", "_weaponsList", "_weaponSelected", "_weaponListLeveled"];
 
 _unitLevel = _this;

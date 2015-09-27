@@ -1,5 +1,4 @@
-#define RADIO_ITEM "ItemRadio"
-#define PLAYER_UNITS "Exile_Unit_Player"
+#include "\A3XAI\globaldefines.hpp"
 
 private ["_unitGroup","_detectBase","_vehicle","_canParaDrop","_detectStartPos","_searchLength"];
 _unitGroup = _this select 0;
@@ -8,7 +7,7 @@ if (_unitGroup getVariable ["EnemiesIgnored",false]) then {[_unitGroup,"Behavior
 
 _vehicle = _unitGroup getVariable ["assignedVehicle",objNull];
 _searchLength = _unitGroup getVariable "SearchLength";
-if (isNil "_searchLength") then {_searchLength = (waypointPosition [_unitGroup,0]) distance (waypointPosition [_unitGroup,1]);};
+if (isNil "_searchLength") then {_searchLength = (waypointPosition [_unitGroup,0]) distance2D (waypointPosition [_unitGroup,1]);};
 if (_vehicle isKindOf "Plane") then {_searchLength = _searchLength * 2;};
 
 if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 %2 detection started with search length %3.",_unitGroup,(typeOf (_vehicle)),_searchLength];};
@@ -22,8 +21,8 @@ if (_unitGroup getVariable ["HeliDetectReady",true]) then {
 	while {!(_vehicle getVariable ["vehicle_disabled",false]) && {(_unitGroup getVariable ["GroupSize",-1]) > 0} && {local _unitGroup}} do {
 		private ["_detected","_vehPos","_nearNoAggroAreas","_playerPos","_canReveal"];
 		_vehPos = getPosATL _vehicle;
-		_canReveal = !((combatMode _unitGroup) isEqualTo "BLUE");
-		_detected = _vehPos nearEntities [[PLAYER_UNITS,"LandVehicle"],500];
+		_canReveal = ((combatMode _unitGroup) in ["YELLOW","RED"]);
+		_detected = _vehPos nearEntities [[PLAYER_UNITS,"LandVehicle"],DETECT_RANGE_AIR];
 		if ((count _detected) > 5) then {_detected resize 5};
 		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
 		{
@@ -47,11 +46,11 @@ if (_unitGroup getVariable ["HeliDetectReady",true]) then {
 			};
 			uiSleep 0.1;
 		} forEach _detected;
-		if (((_vehicle distance _detectStartPos) > _searchLength) or {_vehicle getVariable ["vehicle_disabled",false]}) exitWith {_unitGroup setVariable ["HeliDetectReady",true]};
+		if (((_vehicle distance2D _detectStartPos) > _searchLength) or {_vehicle getVariable ["vehicle_disabled",false]}) exitWith {_unitGroup setVariable ["HeliDetectReady",true]};
 		uiSleep 15;
 	};
 	
-	_vehicle flyInHeight (125 + (random 25));
+	_vehicle flyInHeight (FLYINHEIGHT_AIR_PATROLLING_BASE + (random FLYINHEIGHT_AIR_PATROLLING_VARIANCE));
 };
 
 if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 %2 detection end.",_unitGroup,(typeOf (_vehicle))];};

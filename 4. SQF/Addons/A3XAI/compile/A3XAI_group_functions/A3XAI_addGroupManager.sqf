@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_unitLevel", "_unitType", "_unitTypeRef", "_vehicle", "_stuckCheckTime", "_groupLeadMarker", "_groupWPMarker", "_fncArray", "_fnc_execEveryLoop", "_fnc_checkUnits", "_fnc_generateLoot", "_fnc_vehicleAmmoFuelCheck", "_fnc_antistuck", "_currentTime", "_managerStartTime", "_updateServerLoot", "_pullRate", "_markname", "_mark", "_markername", "_unitPos", "_unitMarker", "_lootPool", "_result", "_debugStartTime"];
 
 _unitGroup = _this select 0;
@@ -81,6 +83,7 @@ if (isDedicated) then {
 								(format ["%1_Lead",_unitGroup]) setMarkerPos _unitPos;
 								(format ["%1_Lead",_unitGroup]) setMarkerColor call {
 									_combatMode = (combatMode _unitGroup);
+									if (_combatMode isEqualTo "GREEN") exitWith {"ColorGreen"};
 									if (_combatMode isEqualTo "YELLOW") exitWith {"ColorBlack"};
 									if (_combatMode isEqualTo "RED") exitWith {"ColorRed"};
 									if (_combatMode isEqualTo "BLUE") exitWith {"ColorBlue"};
@@ -115,6 +118,7 @@ if (isDedicated) then {
 							(format ["%1_Lead",_unitGroup]) setMarkerPos _unitPos;
 							(format ["%1_Lead",_unitGroup]) setMarkerColor call {
 								_combatMode = (combatMode _unitGroup);
+								if (_combatMode isEqualTo "GREEN") exitWith {"ColorGreen"};
 								if (_combatMode isEqualTo "YELLOW") exitWith {"ColorBlack"};
 								if (_combatMode isEqualTo "RED") exitWith {"ColorRed"};
 								if (_combatMode isEqualTo "BLUE") exitWith {"ColorBlue"};

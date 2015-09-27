@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 //scriptName "Functions\arrays\fn_selectRandom.sqf";
 /************************************************************
     Random Select

@@ -613,7 +613,7 @@ A3XAI_miscLootCount = 2;
 //Chance to add a single InstaDoc to group loot pool per unit (Default: 0.25)
 A3XAI_chanceFirstAidKit = 0.25;
 
-//Probability to successfully pull a random item from loot pool for level 0-3 AI. Influences the rate at which loot items are added to units.
+//Probability to successfully pull a random item from loot pool for level 0-3 AI. Loot has a chance to be added about twice per minute.
 A3XAI_lootPullChance0 = 0.20; //Default for level 0 AI: 0.20
 A3XAI_lootPullChance1 = 0.40; //Default for level 1 AI: 0.40
 A3XAI_lootPullChance2 = 0.60; //Default for level 2 AI: 0.60

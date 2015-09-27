@@ -1,3 +1,5 @@
+#include "\A3XAI\globaldefines.hpp"
+
 private ["_unitGroup", "_vehicle","_inNoAggroArea","_inArea","_result"];
 
 _unitGroup = _this select 0;
