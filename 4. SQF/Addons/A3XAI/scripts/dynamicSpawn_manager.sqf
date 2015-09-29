@@ -99,8 +99,8 @@ while {true} do {
 						if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Player %1 is wealthy. Unadjusted dynamic spawn chance set to %2.",_player,_chanceModifier];};
 					};
 					if (_chanceModifier < 0) then {_chanceModifier = 0;};
-					_spawnChance = (_spawnChance * _chanceModifier * A3XAI_spawnChanceMultiplier);
 					if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Dynamic spawn probabilities for %1: Base: %2, Modifier: %3, A3XAI_spawnChanceMultiplier: %4",_player,_spawnChance,_chanceModifier,A3XAI_spawnChanceMultiplier];};
+					_spawnChance = (_spawnChance * _chanceModifier * A3XAI_spawnChanceMultiplier);
 				};
 				if (_spawnChance call A3XAI_chance) then {
 					_lastSpawned_DB set [_index,diag_tickTime];

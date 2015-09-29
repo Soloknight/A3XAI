@@ -27,23 +27,25 @@ for "_i" from 0 to ((count _cfgWorldName) -1) do {
 
 //Set up trader city blacklist areas
 _traderCityPositions = [];
-{
-	if ((markerType _x) isEqualTo "ExileTraderZone") then {
-		_traderCityPositions pushBack (getMarkerPos _x);
-		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader marker %1",_x];};
-	};
-} forEach allMapMarkers;
+call {
+	{
+		if ((markerType _x) isEqualTo "ExileTraderZone") then {
+			_traderCityPositions pushBack (getMarkerPos _x);
+			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader marker %1",_x];};
+		};
+	} forEach allMapMarkers;
 
-if (_traderCityPositions isEqualTo []) then {
+	if !(_traderCityPositions isEqualTo []) exitWith {};
+	
 	{
 		if ((triggerStatements _x) isEqualTo ["(vehicle player) in thisList","call ExileClient_object_player_event_onEnterSafezone","call ExileClient_object_player_event_onLeaveSafezone"]) then {
 			_traderCityPositions pushBack (getPosATL _x);
 			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader safezone at %1",getPosATL _x];};
 		};
 	} forEach (allMissionObjects "EmptyDetector");
-};
-
-if (_traderCityPositions isEqualTo []) then {
+	
+	if !(_traderCityPositions isEqualTo []) exitWith {};
+	
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Could not automatically detect any trader locations. Reading trader locations from A3XAI_traderAreaLocations."];};
 	{
 		call {
@@ -53,6 +55,7 @@ if (_traderCityPositions isEqualTo []) then {
 			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader location at %1",_x];};
 		};
 	} forEach A3XAI_traderAreaLocations;
+	
 	if (_traderCityPositions isEqualTo []) then {
 		diag_log "A3XAI Warning: Could not automatically detect trader safezones and no manually defined positions found in A3XAI_traderAreaLocations.";
 	};

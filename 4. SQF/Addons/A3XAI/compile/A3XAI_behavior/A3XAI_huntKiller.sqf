@@ -1,6 +1,6 @@
 #include "\A3XAI\globaldefines.hpp"
 
-private ["_unitGroup","_targetPlayer","_startPos","_chaseDistance","_enableHCReady","_nearBlacklistedAreas"];
+private ["_unitGroup","_targetPlayer","_startPos","_chaseDistance","_enableHCReady","_nearBlacklistedAreas","_targetPlayerPos"];
 
 _targetPlayer = _this select 0;
 _unitGroup = _this select 1;
@@ -22,12 +22,13 @@ if (_unitGroup getVariable ["HC_Ready",false]) then { //If HC mode enabled and A
 
 _startPos = _unitGroup getVariable ["trigger",(getPosASL (leader _unitGroup))];
 _chaseDistance = _unitGroup getVariable ["patrolDist",250];
-_nearBlacklistedAreas = nearestLocations [_targetPlayer,[BLACKLIST_OBJECT_GENERAL],1500];
+_targetPlayerPos = getPosATL _targetPlayer;
+_nearBlacklistedAreas = nearestLocations [_targetPlayerPos,[BLACKLIST_OBJECT_GENERAL],1500];
 
-_unitGroup setFormDir ([(leader _unitGroup),_targetPlayer] call BIS_fnc_dirTo);
+_unitGroup setFormDir ([(leader _unitGroup),_targetPlayerPos] call BIS_fnc_dirTo);
 
-if ((_startPos distance _targetPlayer) < _chaseDistance) then {
-	private ["_targetPlayerPos","_leader","_ableToChase","_marker"];
+if ((_startPos distance _targetPlayerPos) < _chaseDistance) then {
+	private ["_leader","_ableToChase","_marker"];
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Group %1 has entered pursuit state for 180 seconds. Target: %2.",_unitGroup,_targetPlayer];};
 
 	//Set pursuit timer
@@ -49,8 +50,8 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 	_ableToChase = true;
 	while { 
 		_ableToChase &&
-		{alive _targetPlayer} &&
 		{isPlayer _targetPlayer} && 
+		{alive _targetPlayer} &&
 		{((_startPos distance _targetPlayer) < _chaseDistance)} &&
 		{(vehicle _targetPlayer) isKindOf "Land"}
 	} do {

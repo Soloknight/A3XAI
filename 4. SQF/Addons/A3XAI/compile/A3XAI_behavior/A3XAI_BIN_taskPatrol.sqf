@@ -43,7 +43,7 @@ Edited version for A3XAI (https://github.com/dayzai/A3XAI)
 =======================================================================================================================
 */
 
-//waitUntil {!isNil "bis_fnc_init"};
+
 _unitGroup = _this select 0;
 _pos = _this select 1;
 _max_dist = _this select 2;
@@ -73,7 +73,6 @@ _center_z = (_pos) select 2;
 if(isNil "_center_z")then{_center_z = 0;};
 
 _allowInNoAggroArea = (_pos call A3XAI_checkInNoAggroArea);
-
 _wp_count = 4 + (floor random 3) + (floor (_max_dist / 100 ));
 _angle = (360 / (_wp_count -1));
 
@@ -84,13 +83,12 @@ _completionRadius = if (_isVehicle) then {(25 + _slack)} else {(10 + _slack)};
 if ( _slack < 20 ) then { _slack = 20 };
 
 _angle_offset = random 180;
-while {count _wp_array < _wp_count} do 
-{
+while {count _wp_array < _wp_count} do {
 	private ["_x1","_y1","_wp_pos", "_prepos","_bldgpos","_bldgs","_a","_b"];
 	
 	_newangle = (count _wp_array * _angle) + _angle_offset;
 	
-	if ((_newangle > 360) || (_newangle < 0)) then
+	if ((_newangle > 360) || {_newangle < 0}) then
 	{
 		_newangle = abs (abs (_newangle) - 360);
 	};
@@ -99,7 +97,7 @@ while {count _wp_array < _wp_count} do
 	{
 		_newangle = -_newangle;
 		
-		if ((_newangle > 360) || (_newangle < 0)) then
+		if ((_newangle > 360) || {_newangle < 0}) then
 		 {
 			_newangle = abs (abs (_newangle) - 360);
 		 };
@@ -115,6 +113,7 @@ while {count _wp_array < _wp_count} do
 
 	_wp_pos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 	
+	_retry = false;
 	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {(_wp_pos call A3XAI_checkInNoAggroArea) or {_allowInNoAggroArea}}) then {
 		_retry = true;
 		_retryCount = 0;
@@ -139,7 +138,7 @@ while {count _wp_array < _wp_count} do
 		};
 	};
 
-	if ((!(surfaceIsWater _wp_pos) or {_allowWater}) && (!(_wp_pos call A3XAI_checkInNoAggroArea) or {_allowInNoAggroArea})) then {
+	if !(_retry) then {
 		_a = 0 + (_wp_pos select 0);
 		_b = 0 + (_wp_pos select 1);
 		
@@ -186,10 +185,8 @@ while {count _wp_array < _wp_count} do
 		_wp_array pushBack _wp_pos;
 	};
 	
-	uiSleep 0.5;
+	uiSleep 0.25;
 };
-
-uiSleep 1;
 
 for "_i" from 1 to (_wp_count - 1) do
 {
@@ -209,15 +206,13 @@ for "_i" from 1 to (_wp_count - 1) do
 
 _endWP = [_pos, 0, 50, 6, 0, 50 * (pi / 180), 0, [],[_pos]] call BIS_fnc_findSafePos;
 
-if (_searchLoot) then {
-	// End back near start point and then pick a new random point
-	_wp1 = _unitGroup addWaypoint [_endWP, 0];
-	_wp1 setWaypointType "MOVE";
-	_wp1 setWaypointCompletionRadius (_max_dist max 50);
-	_wp1 setWaypointCombatMode _combatMode;
-	_wp1 setWaypointBehaviour _behavior;
-	[_unitGroup,(count waypoints _unitGroup)] setWaypointStatements ["true", "if !(local this) exitWith {}; group this setCurrentWaypoint [(group this), (round (random 2) + 1)];"];
-};
+// End back near start point and then pick a new random point
+_wp1 = _unitGroup addWaypoint [_endWP, 0];
+_wp1 setWaypointType "MOVE";
+_wp1 setWaypointCompletionRadius (_max_dist max 50);
+_wp1 setWaypointCombatMode _combatMode;
+_wp1 setWaypointBehaviour _behavior;
+[_unitGroup,(count waypoints _unitGroup)] setWaypointStatements ["true", "if !(local this) exitWith {}; group this setCurrentWaypoint [(group this), (round (random 2) + 1)];"];
 
 // Cycle in case we reach the end
 _wp2 = _unitGroup addWaypoint [_endWP, 0];

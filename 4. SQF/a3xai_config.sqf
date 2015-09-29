@@ -259,17 +259,17 @@ A3XAI_minRandSpawnDist = 0;
 
 /*	Shared AI Vehicle Settings
 
-	These settings affect the following AI vehicle patrol types: Air, Land, UAV, UGV
+	These settings affect the following AI vehicle patrol types: Air, Land, UAV, UGV (unless noted otherwise).
 --------------------------------------------------------------------------------------------------------------------*/
 
 //Time to wait (seconds) before despawning disabled/destroyed AI vehicles. If A3XAI_vehiclesAllowedForPlayers is enabled, this timer is cleared once a player enters the vehicle. (Default: 600)
 A3XAI_vehicleDespawnTime = 600;
 
-//Enable player use of AI vehicles. Players must either disable the vehicle or kill all units of the group in order to access the vehicle. (Default: false)
+//Enable player use of AI vehicles (except autonomous vehicles). Players must either disable the vehicle or kill all units of the group in order to access the vehicle. (Default: false)
 A3XAI_vehiclesAllowedForPlayers = false;
 
 //Add name of location as displayed on map prevent AI vehicle patrols from travelling to these locations. Location names are case-sensitive. (Example: ["Aggelochori","Panochori","Zaros"])
-//Note: Vehicles may still pass through these areas, but will become non-hostile towards players until they travel 600m away from the area.
+//Note: Vehicles may still pass through these areas.
 A3XAI_waypointBlacklistAir = []; //Affects Air vehicles (including UAVs)
 A3XAI_waypointBlacklistLand = [];  //Affects Land vehicles (including UGVs)
 
