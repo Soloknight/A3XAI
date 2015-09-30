@@ -292,7 +292,7 @@ A3XAI_levelChancesAir = [0.00,0.50,0.35,0.15];
 A3XAI_respawnAirMinTime = 600;
 A3XAI_respawnAirMaxTime = 900;
 
-//Classnames of air vehicle types to use, with the maximum amount of each type to spawn.
+//Classnames of air vehicle types to use, with the maximum amount of each type to spawn. Format: ["classname",<amount>]
 A3XAI_heliList = [
 	["B_Heli_Light_01_armed_F",5],
 	["B_Heli_Transport_01_F",5],
@@ -337,7 +337,7 @@ A3XAI_levelChancesLand = [0.00,0.50,0.35,0.15];
 A3XAI_respawnLandMinTime = 600;
 A3XAI_respawnLandMaxTime = 900;
 
-//Classnames of land vehicle types to use, with the maximum amount of each type to spawn.
+//Classnames of land vehicle types to use, with the maximum amount of each type to spawn.  Format: ["classname",<amount>]
 A3XAI_vehList = [
 	["Exile_Car_Hatchback_Rusty1",5],
 	["Exile_Car_Hatchback_Rusty2",5],
@@ -414,7 +414,7 @@ A3XAI_airReinforcementDuration3 = 300; //Level 3 Default: 300
 //Global maximum number of active UAV patrols. Set at 0 to disable (Default: 0).	
 A3XAI_maxUAVPatrols = 0;
 
-//Classnames of UAV types to use, with the maximum amount of each type to spawn.
+//Classnames of UAV types to use, with the maximum amount of each type to spawn.  Format: ["classname",<amount>]
 A3XAI_UAVList = [
 	["I_UAV_02_CAS_F",5],
 	["I_UAV_02_F",5],
@@ -452,7 +452,7 @@ A3XAI_UAVDetectChance = 0.80;
 //Global maximum number of active UGV patrols. Set at 0 to disable (Default: 0).	
 A3XAI_maxUGVPatrols = 0;
 
-//Classnames of UGV types to use, with the maximum amount of each type to spawn.
+//Classnames of UGV types to use, with the maximum amount of each type to spawn.  Format: ["classname",<amount>]
 A3XAI_UGVList = [
 	["I_UGV_01_rcws_F",5],
 	["B_UGV_01_rcws_F",5],

@@ -17,17 +17,15 @@ private ["_startTime","_directoryAsArray","_worldname","_allUnits","_functionsCh
 _directoryAsArray = toArray __FILE__;
 _directoryAsArray resize ((count _directoryAsArray) - 26);
 A3XAI_directory = toString _directoryAsArray;
+A3XAI_ServerDir = A3XAI_directory;
 
+//A3XAI_ServerDir = [missionConfigFile >> "A3XAI","serverDir","@exileserver"] call BIS_fnc_returnConfigEntry;
 _readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 _reportDirectoryName = (([missionConfigFile >> "CfgDeveloperOptions","reportDirectoryName",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
-if (isNil "A3XAI_ServerDir") then {
-	A3XAI_ServerDir = "@exileserver";
-};
-
 if (_reportDirectoryName) then {
-	diag_log format ["Debug: File is [%1]",__FILE__];
+	diag_log format ["Debug: File is [%1\%2]",A3XAI_ServerDir,__FILE__];
 };
 
 //Report A3XAI version to RPT log

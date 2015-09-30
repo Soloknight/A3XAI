@@ -1,4 +1,4 @@
-A3XAI - Current Version: 0.1.7.1
+A3XAI - Current Version: 0.1.7.2
 =====
 
 Introduction
@@ -13,6 +13,8 @@ Installing A3XAI
 4. Navigate to your server's Arma 3 folder and open the @ExileServer folder.
 5. Paste the contents copied from Step 3 into this directory. When prompted to merge the "Addons" folder, click Yes. Note: No Exile files are being replaced or modified. This step merges the two Addon folders.
 6. (Optional) Configure A3XAI settings by editing A3XAI_config.sqf.
+
+IMPORTANT: After the Arma 3 1.52 update, the config files are located within the A3XAI.pbo.
 
 A3XAI Features
 ---

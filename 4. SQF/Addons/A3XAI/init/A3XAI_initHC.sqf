@@ -16,9 +16,10 @@ A3XAI_HCPlayerLoggedIn = false;
 A3XAI_HCGroupsCount = 0;
 A3XAI_enableHC = true;
 
-if (isNil "A3XAI_ServerDir") then {
-	A3XAI_ServerDir = "@exileserver";
-};
+_directoryAsArray = toArray __FILE__;
+_directoryAsArray resize ((count _directoryAsArray) - 26);
+A3XAI_directory = toString _directoryAsArray;
+A3XAI_ServerDir = A3XAI_directory;
 
 //Create reference marker to act as boundary for spawning AI air/land vehicles.
 _worldName = (toLower worldName);
