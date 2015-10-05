@@ -121,7 +121,7 @@ _nul = [] spawn {
 	if (isNil "_configCheck") exitWith {diag_log "A3XAI Critical Error: Configuration file not successfully loaded. Stopping startup procedure.";};
 	
 	if (_debugLevelHC > 0) then {A3XAI_debugLevel = _debugLevelHC;};
-	if (_readOverrideFile && {isFilePatchingEnabled}) then {call compile preprocessFileLineNumbers format ["%1\A3EAI_settings_override.sqf",_serverDir];};
+	if (_readOverrideFile && {isFilePatchingEnabled}) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",_serverDir];};
 	
 	diag_log "[A3XAI] Headless client connection successful. HC authorization request granted.";
 
