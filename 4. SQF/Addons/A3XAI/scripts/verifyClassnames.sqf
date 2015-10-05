@@ -173,10 +173,10 @@ if (A3XAI_maxUGVPatrols > 0) then {
 
 {
 	if !(([configFile >> "CfgWeapons" >> _x >> "ItemInfo","mountAction",""] call BIS_fnc_returnConfigEntry) isEqualTo "MountOptic") then {
-		diag_log format ["[A3XAI] Removing invalid optics classname from A3XAI_opticsList array: %1.",_x];
-		A3XAI_opticsList deleteAt _forEachIndex;
+		diag_log format ["[A3XAI] Removing invalid optics classname from A3XAI_weaponOpticsList array: %1.",_x];
+		A3XAI_weaponOpticsList deleteAt _forEachIndex;
 	};
-} forEach A3XAI_opticsList;
+} forEach A3XAI_weaponOpticsList;
 
 {
 	if !(([configFile >> "CfgVehicles" >> _x,"vehicleClass",""] call BIS_fnc_returnConfigEntry) isEqualTo "Backpacks") then {
