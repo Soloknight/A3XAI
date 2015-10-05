@@ -56,7 +56,7 @@ try {
 	_unitGroup setBehaviour "AWARE";
 
 	//Begin hunting player or patrolling area
-	_behavior = if (A3XAI_huntingChance call A3XAI_chance) then {
+	_behavior = if (A3XAI_spawnHunterChance call A3XAI_chance) then {
 		_unitGroup reveal [_targetPlayer,4];
 		0 = [_unitGroup,_patrolDist,_targetPlayer,getPosATL _trigger] spawn A3XAI_startHunting;
 		"HUNT PLAYER"

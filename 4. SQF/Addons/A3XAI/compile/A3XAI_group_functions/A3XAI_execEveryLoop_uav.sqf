@@ -5,7 +5,7 @@ private ["_unitGroup", "_vehicle", "_lastAggro","_inNoAggroArea","_inArea","_res
 _unitGroup = _this select 0;
 _vehicle = _this select 1;
 
-if (A3XAI_UAVDetectOnly) then {
+if (A3XAI_detectOnlyUAVs) then {
 	_lastAggro = _vehicle getVariable "AggroTime";
 	if (isNil "AggroTime") then {
 		_lastAggro = 0;

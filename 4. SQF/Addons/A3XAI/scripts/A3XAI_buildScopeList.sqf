@@ -19,10 +19,10 @@ if !(A3XAI_dynamicOpticsBlacklist isEqualTo []) then {
 } forEach _items;
 
 if !(_items isEqualTo []) then {
-	A3XAI_weaponOpticsList = _items;
+	A3XAI_opticsList = _items;
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Generated %1 weapon optics classnames in %2 seconds.",(count _items),diag_tickTime - _startTime];
 		if (A3XAI_debugLevel > 1) then {
-			diag_log format ["A3XAI Debug: Contents of A3XAI_weaponOpticsList: %1",A3XAI_weaponOpticsList];
+			diag_log format ["A3XAI Debug: Contents of A3XAI_opticsList: %1",A3XAI_opticsList];
 		};
 	};
 } else {

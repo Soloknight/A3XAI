@@ -22,7 +22,7 @@ if (_isForceDespawn) then {
 	if (A3XAI_debugLevel > 0) then {diag_log format["A3XAI Debug: All units of dynamic AI group spawned by trigger %1 have been killed. Starting force despawn in 30 seconds.",triggerText _trigger];};
 	uiSleep 30;
 } else {
-	if (A3XAI_debugLevel > 0) then {diag_log format["A3XAI Debug: No players remain in %1. Deleting spawned AI in %2 seconds.",triggerText _trigger,A3XAI_dynDespawnWait];};
+	if (A3XAI_debugLevel > 0) then {diag_log format["A3XAI Debug: No players remain in %1. Deleting spawned AI in %2 seconds.",triggerText _trigger,A3XAI_despawnDynamicSpawnTime];};
 	if (A3XAI_enableDebugMarkers) then {
 		_nul = _trigger spawn {
 			_marker = str(_this);
@@ -30,7 +30,7 @@ if (_isForceDespawn) then {
 			_marker setMarkerAlpha 0.7;							//Light green: Active trigger awaiting despawn.
 		};
 	};
-	uiSleep A3XAI_dynDespawnWait;								//Wait some time before deleting units. (amount of time to allow units to exist when the trigger area has no players)
+	uiSleep A3XAI_despawnDynamicSpawnTime;								//Wait some time before deleting units. (amount of time to allow units to exist when the trigger area has no players)
 
 	if !(isNull _trigger) then {							//Check if dynamic spawn area has been force-despawned (deleted). Force despawn will happen when all units have been killed.
 		_canDespawn = ((!triggerActivated _trigger) or {isNull (_grpArray select 0)});			//Can despawn dynamic spawn area if trigger isn't activated or spawned group is null
@@ -67,7 +67,7 @@ if (_canDespawn) then {
 	
 	true
 } else {
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: A player has entered the trigger area at %1. Cancelling despawn.",(triggerText _trigger)];}; //Exit script if trigger has been reactivated since A3XAI_dynDespawnWait seconds has passed.
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: A player has entered the trigger area at %1. Cancelling despawn.",(triggerText _trigger)];}; //Exit script if trigger has been reactivated since A3XAI_despawnDynamicSpawnTime seconds has passed.
 	_trigger setVariable ["isCleaning",false];	//Allow next despawn request.
 	_triggerStatements set [2,_deactStatements];
 	_trigger setTriggerStatements _triggerStatements;

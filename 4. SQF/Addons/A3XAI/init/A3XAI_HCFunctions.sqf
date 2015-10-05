@@ -24,3 +24,5 @@ A3XAI_updateGroupLootPoolHC = compileFinal preprocessFileLineNumbers format ["%1
 A3XAI_setBehaviorHC = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_headlessclient\A3XAI_setBehaviorHC.sqf",A3XAI_directory];
 
 diag_log "[A3XAI] A3XAI HC functions loaded.";
+
+true

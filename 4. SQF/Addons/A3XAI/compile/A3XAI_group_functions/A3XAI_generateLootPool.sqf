@@ -10,7 +10,7 @@ _unitType = _unitGroup getVariable ["unitType",""];
 
 if (_unitType != "dynamic") then {
 	for "_j" from 1 to _groupSize do {
-		if (A3XAI_chanceFirstAidKit call A3XAI_chance) then {
+		if (A3XAI_firstAidKitChance call A3XAI_chance) then {
 			_lootPool pushBack FIRST_AID_ITEM_PLAYER;
 		};
 		
@@ -28,7 +28,7 @@ if (_unitType != "dynamic") then {
 	};
 } else {
 	for "_j" from 1 to _groupSize do {
-		if (A3XAI_chanceFirstAidKit call A3XAI_chance) then {
+		if (A3XAI_firstAidKitChance call A3XAI_chance) then {
 			_lootUnit = (units _unitGroup) call A3XAI_selectRandom;
 			[_lootUnit,FIRST_AID_ITEM_PLAYER] call A3XAI_addItem;
 		};

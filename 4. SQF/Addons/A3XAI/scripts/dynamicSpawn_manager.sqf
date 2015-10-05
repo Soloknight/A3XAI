@@ -1,7 +1,7 @@
 #include "\A3XAI\globaldefines.hpp"
 
-if (A3XAI_debugLevel > 0) then {diag_log "Starting A3XAI Dynamic Spawn Manager in 2 minutes.";};
-uiSleep 120;
+if (A3XAI_debugLevel > 0) then {diag_log "Starting A3XAI Dynamic Spawn Manager in 1 minute.";};
+uiSleep 60;
 //uiSleep 30; //FOR DEBUGGING
 if (A3XAI_debugLevel > 0) then {diag_log "A3XAI V3 Dynamic Spawn Manager started.";};
 
@@ -22,8 +22,8 @@ while {true} do {
 					if (_playerIndex > -1) then {
 						_lastSpawned = _lastSpawned_DB select _playerIndex;
 						_timePassed = (_currentTime - _lastSpawned);
-						if (_timePassed > A3XAI_dynCooldownTime) then {
-							if ((_currentTime - (_lastOnline_DB select _playerIndex)) < A3XAI_dynResetLastSpawn) then {
+						if (_timePassed > A3XAI_timePerDynamicSpawn) then {
+							if ((_currentTime - (_lastOnline_DB select _playerIndex)) < A3XAI_purgeLastDynamicSpawnTime) then {
 								_allPlayers pushBack _x;
 								//diag_log format ["DEBUG: Player %1 added to current cycle dynamic spawn list.",_x];
 							};
@@ -49,7 +49,7 @@ while {true} do {
 		
 		_activeDynamicSpawns = (count A3XAI_dynTriggerArray);
 		_playerCount = (count _allPlayers);
-		_maxSpawnsPossible = (_playerCount min A3XAI_dynMaxSpawns);	//Can't have more spawns than players (doesn't count current number of dynamic spawns)
+		_maxSpawnsPossible = (_playerCount min A3XAI_maxDynamicSpawns);	//Can't have more spawns than players (doesn't count current number of dynamic spawns)
 		
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Preparing to create %1 dynamic spawns (Players: %2, Dynamic Spawns: %3).",(_maxSpawnsPossible - _activeDynamicSpawns),_playerCount,_activeDynamicSpawns];};
 

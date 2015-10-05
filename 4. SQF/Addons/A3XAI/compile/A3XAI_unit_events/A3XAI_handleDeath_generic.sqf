@@ -15,10 +15,10 @@ try {
 		};
 		_unitLevel = _unitGroup getVariable ["unitLevel",1];
 		if (isDedicated) then {
-			0 = [_victim,_unitLevel] spawn A3XAI_generateLoot;
+			0 = [_victim,_unitLevel] spawn A3XAI_generateLootOnDeath;
 		} else {
-			A3XAI_generateLoot_PVS = [_victim,_unitLevel];
-			publicVariableServer "A3XAI_generateLoot_PVS";
+			A3XAI_generateLootOnDeath_PVS = [_victim,_unitLevel];
+			publicVariableServer "A3XAI_generateLootOnDeath_PVS";
 		};
 	} else {
 		if (_killer isEqualTo _victim) then {

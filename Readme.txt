@@ -1,4 +1,4 @@
-A3XAI - Current Version: 0.1.7.2
+A3XAI - Current Version: 0.2.0
 =====
 
 Introduction
@@ -7,14 +7,15 @@ A3XAI is a roaming/ambient AI spawning addon for ArmA 3 Exile mod (http://www.ex
 
 Installing A3XAI
 ---
-1. Download the latest A3XAI release from the A3XAI Releases page: https://github.com/dayzai/A3XAI/releases
-2. Locate the .zip file you downloaded and extract it to a folder.
-3. Open the extracted folder and open the Installation Package folder. Copy the contents of this folder (Addons, A3XAI_config.sqf, A3XAI_custom_defs.sqf)
-4. Navigate to your server's Arma 3 folder and open the @ExileServer folder.
-5. Paste the contents copied from Step 3 into this directory. When prompted to merge the "Addons" folder, click Yes. Note: No Exile files are being replaced or modified. This step merges the two Addon folders.
-6. (Optional) Configure A3XAI settings by editing A3XAI_config.sqf.
+IMPORTANT: As of A3XAI 0.2.0, the installation steps have changed. If you already have A3XAI installed (before version 0.2.0), you must remove all A3XAI files from @ExileServer.
+1. Copy @A3XAI from "1. Installation Package" into your server's Arma 3 directory.
+2. Modify your server's startup parameters to include @A3XAI. For example: -serverMod=@ExileServer;@A3XAI;
 
-IMPORTANT: After the Arma 3 1.52 update, the config files are located within the A3XAI.pbo.
+To configure A3XAI:
+
+1. Unpack A3XAI_config.pbo (Recommended to use PBO Manager: http://www.armaholic.com/page.php?id=16369)
+2. Edit config.cpp with a text editor (Recommended to use Notepad++: https://notepad-plus-plus.org/). Make your configuration changes.
+3. Repack A3XAI_config.pbo
 
 A3XAI Features
 ---
@@ -33,8 +34,6 @@ A3XAI Features
 * Plug-and-play installation: Installing and upgrading A3XAI is a simple copy and paste job and does not require modifying any Exile files.
 * Easy configuration: A single configuration file contains all settings for A3XAI. This config file is external to the A3XAI pbo, so configuration changes can be made without ever having to unpack or repack the pbo file.
 * Headless Client support: Offload AI calculations from your dedicated server to a headless client to improve server performance. The A3XAI HC can be started/stopped/restarted any time without causing problems.
-
-Note: Headless clients are currently bugged in ArmA 3 1.50. It is recommended to only attempt using a headless client setup in ArmA 3 1.52+.
 
 Support A3XAI
 ---

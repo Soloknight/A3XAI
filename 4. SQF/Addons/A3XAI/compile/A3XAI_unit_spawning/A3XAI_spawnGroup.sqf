@@ -68,7 +68,7 @@ _unitGroup allowFleeing 0;
 
 0 = [_unitGroup,_unitLevel] spawn A3XAI_addGroupManager;	//start group-level manager
 
-if (_unitType in A3XAI_airReinforcementAllowedTypes) then {
+if (_unitType in A3XAI_airReinforcementAllowedFor) then {
 	_unitGroup setVariable ["ReinforceAvailable",true];
 };
 

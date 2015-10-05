@@ -45,30 +45,30 @@ _verified = [];
 	} forEach _array;
 } forEach A3XAI_tableChecklist;
 
-if (A3XAI_maxHeliPatrols > 0) then {
+if (A3XAI_maxAirPatrols > 0) then {
 	{
 		call {
 			if (!((_x select 0) isKindOf "Air")) exitWith {
-				diag_log format ["[A3XAI] Removing non-Air type vehicle from A3XAI_heliList array: %1.",(_x select 0)];
-				A3XAI_heliList deleteAt _forEachIndex;
+				diag_log format ["[A3XAI] Removing non-Air type vehicle from A3XAI_airVehicleList array: %1.",(_x select 0)];
+				A3XAI_airVehicleList deleteAt _forEachIndex;
 			};
 		};
-	} forEach A3XAI_heliList;
+	} forEach A3XAI_airVehicleList;
 };
 
 if (A3XAI_maxLandPatrols > 0) then {
 	{
 		call {
 			if (!((_x select 0) isKindOf "LandVehicle")) exitWith {
-				diag_log format ["[A3XAI] Removing non-LandVehicle type vehicle from A3XAI_vehList array: %1.",(_x select 0)];
-				A3XAI_vehList deleteAt _forEachIndex;
+				diag_log format ["[A3XAI] Removing non-LandVehicle type vehicle from A3XAI_landVehicleList array: %1.",(_x select 0)];
+				A3XAI_landVehicleList deleteAt _forEachIndex;
 			};
 			if (((_x select 0) isKindOf "StaticWeapon")) exitWith {
-				diag_log format ["[A3XAI] Removing StaticWeapon type vehicle from A3XAI_vehList array: %1.",(_x select 0)];
-				A3XAI_vehList deleteAt _forEachIndex;
+				diag_log format ["[A3XAI] Removing StaticWeapon type vehicle from A3XAI_landVehicleList array: %1.",(_x select 0)];
+				A3XAI_landVehicleList deleteAt _forEachIndex;
 			};
 		};
-	} forEach A3XAI_vehList;
+	} forEach A3XAI_landVehicleList;
 };
 
 if (A3XAI_maxAirReinforcements > 0) then {
@@ -173,10 +173,10 @@ if (A3XAI_maxUGVPatrols > 0) then {
 
 {
 	if !(([configFile >> "CfgWeapons" >> _x >> "ItemInfo","mountAction",""] call BIS_fnc_returnConfigEntry) isEqualTo "MountOptic") then {
-		diag_log format ["[A3XAI] Removing invalid optics classname from A3XAI_weaponOpticsList array: %1.",_x];
-		A3XAI_weaponOpticsList deleteAt _forEachIndex;
+		diag_log format ["[A3XAI] Removing invalid optics classname from A3XAI_opticsList array: %1.",_x];
+		A3XAI_opticsList deleteAt _forEachIndex;
 	};
-} forEach A3XAI_weaponOpticsList;
+} forEach A3XAI_opticsList;
 
 {
 	if !(([configFile >> "CfgVehicles" >> _x,"vehicleClass",""] call BIS_fnc_returnConfigEntry) isEqualTo "Backpacks") then {

@@ -20,7 +20,7 @@ if !(surfaceIsWater (getPosASL _vehicle)) then {
 			//_x action ["eject",_vehicle];
 			_x call A3XAI_ejectParachute;
 			_nul = [_x,objNull] call A3XAI_handleDeathEvent;
-			0 = [_x,_unitLevel] spawn A3XAI_generateLoot;
+			0 = [_x,_unitLevel] spawn A3XAI_generateLootOnDeath;
 		};
 	} count (units _unitGroup);
 };

@@ -9,3 +9,5 @@
 "A3XAI_requestVehicleRelease_PVC" addPublicVariableEventHandler {(_this select 1) call A3XAI_releaseVehicleAllow;diag_log format ["Debug: %1",_this];};
 
 diag_log "[A3XAI] A3XAI HC PVEHs loaded.";
+
+true

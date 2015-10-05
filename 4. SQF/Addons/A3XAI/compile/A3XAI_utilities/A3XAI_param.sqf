@@ -15,7 +15,9 @@ if ((count _array) > _index) then {
 		_return = _default;
 	};
 } else {
-	_return = _default
+	_return = _default;
 };
+
+//diag_log format ["Debug: Array: %1, Return: %2",_this,_return];
 
 _return

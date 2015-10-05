@@ -21,30 +21,42 @@ if (A3XAI_enableRespectRewards) then {
 	
 	if (_vehicleKiller isEqualTo _killer) then {
 		if (currentWeapon _killer isEqualTo "Exile_Melee_Axe") then {
-			if (A3XAI_respect_humiliationBonus > 0) then {
+			if (A3XAI_respectHumiliation > 0) then {
 				_fragAttributes pushBack "Humiliation";
-				_killerRespectPoints pushBack ["HUMILIATION", A3XAI_respect_humiliationBonus];
+				_killerRespectPoints pushBack ["HUMILIATION", A3XAI_respectHumiliation];
 			};
 		} else {
-			if (A3XAI_respect_fraggedBonus > 0) then {
+			if (A3XAI_respectFragged > 0) then {
 				//_fragAttributes pushBack "ENEMY FRAGGED";
 				_fragAttributes pushBack "ENEMY AI FRAGGED";
-				//_killerRespectPoints pushBack ["ENEMY FRAGGED", A3XAI_respect_fraggedBonus];
-				_killerRespectPoints pushBack ["ENEMY AI FRAGGED", A3XAI_respect_fraggedBonus];
+				//_killerRespectPoints pushBack ["ENEMY FRAGGED", A3XAI_respectFragged];
+				_killerRespectPoints pushBack ["ENEMY AI FRAGGED", A3XAI_respectFragged];
 			};
 		};
 	} else {
 		if (_collision) then {
-			if ((driver _vehicleKiller) isEqualTo _killer) then {
-				if (A3XAI_respect_roadkillBonus > 0) then {
+			call {
+				if (_vehicleKiller isKindOf "ParachuteBase") exitWith {
+					if (A3XAI_respectChute > 0) then {
+						_fragAttributes pushBack "Chute > Chopper";
+						_killerRespectPoints pushBack ["CHUTE > CHOPPER", A3XAI_respectChute];
+					};
+				};
+				if (_vehicleKiller isKindOf "Air") exitWith {
+					if (A3XAI_respectBigBird > 0) then {
+						_fragAttributes pushBack "Big Bird";
+						_killerRespectPoints pushBack ["BIG BIRD", A3XAI_respectBigBird];
+					};
+				};
+				if (A3XAI_respectRoadkill > 0) then {
 					_fragAttributes pushBack "Road Kill";
-					_killerRespectPoints pushBack ["Road Kill", A3XAI_respect_roadkillBonus];
+					_killerRespectPoints pushBack ["Road Kill", A3XAI_respectRoadkill];
 				};
 			};
 		} else {
-			if (A3XAI_respect_vehicleWeaponKillBonus > 0) then {
-				_fragAttributes pushBack "Vehicle Weapon Kill";
-				_killerRespectPoints pushBack ["VEHICLE WEAPON KILL", A3XAI_respect_vehicleWeaponKillBonus];
+			if (A3XAI_respectLetItRain > 0) then {
+				_fragAttributes pushBack "Let it Rain";
+				_killerRespectPoints pushBack ["LET IT RAIN", A3XAI_respectLetItRain];
 			};
 		};
 	};
@@ -52,10 +64,10 @@ if (A3XAI_enableRespectRewards) then {
 	_lastKillAt = _killer getVariable ["A3XAI_LastKillAt", 0];
 	_killStack = _killer getVariable ["A3XAI_KillStack", 0];
 	if ((diag_tickTime - _lastKillAt) < (getNumber (configFile >> "CfgSettings" >> "Respect" >> "Bonus" >> "killStreakTimeout"))) then {
-		if (A3XAI_respect_killstreakBonus > 0) then {
+		if (A3XAI_respectKillstreak > 0) then {
 			_killStack = _killStack + 1;
 			_fragAttributes pushBack (format ["%1x Kill Streak", _killStack]);
-			_killerRespectPoints pushBack [(format ["%1x KILL STREAK", _killStack]), _killStack * A3XAI_respect_killstreakBonus];
+			_killerRespectPoints pushBack [(format ["%1x KILL STREAK", _killStack]), _killStack * A3XAI_respectKillstreak];
 		};
 		
 	} else {
@@ -66,7 +78,7 @@ if (A3XAI_enableRespectRewards) then {
 	
 	_distance = floor (_victim distance _killer);
 	_fragAttributes pushBack (format ["%1m Distance", _distance]);
-	_distanceBonus = ((floor (_distance / 100)) * A3XAI_respect_per100mBonus);
+	_distanceBonus = ((floor (_distance / 100)) * A3XAI_respectPer100m);
 	if (_distanceBonus > 0) then {
 		_killerRespectPoints pushBack [(format ["%1m RANGE BONUS", _distance]), _distanceBonus];
 	};
@@ -93,7 +105,7 @@ if (A3XAI_enableRespectRewards) then {
 };
 
 
-if (A3XAI_deathMessages) then {
+if (A3XAI_enableDeathMessages) then {
 	_killMessage = format ["%1 was killed by %2", _victim getVariable ["bodyName","Bandit"], (name _killer)];
 
 	if !(_fragAttributes isEqualTo []) then {

@@ -30,7 +30,7 @@ if (isNil {_unitGroup getVariable "dummyUnit"}) then {
 				_x call A3XAI_ejectParachute;
 				true
 			} else {
-				0 = [_x,_unitLevel] spawn A3XAI_generateLoot;
+				0 = [_x,_unitLevel] spawn A3XAI_generateLootOnDeath;
 				false
 			};
 		} count _units;
@@ -52,7 +52,7 @@ if (isNil {_unitGroup getVariable "dummyUnit"}) then {
 		{
 			_x call A3XAI_ejectParachute;
 			_nul = [_x,objNull] call A3XAI_handleDeathEvent;
-			0 = [_x,_unitLevel] spawn A3XAI_generateLoot;
+			0 = [_x,_unitLevel] spawn A3XAI_generateLootOnDeath;
 		} forEach _units;
 		_unitGroup setVariable ["GroupSize",-1];
 		if !(isDedicated) then {

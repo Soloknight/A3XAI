@@ -146,7 +146,7 @@ if (A3XAI_enableHC && {_unitType in A3XAI_HCAllowedTypes}) then {
 	_unitGroup setVariable ["HC_Ready",true];
 };
 
-if (_unitType in A3XAI_airReinforcementAllowedTypes) then {
+if (_unitType in A3XAI_airReinforcementAllowedFor) then {
 	_unitGroup setVariable ["ReinforceAvailable",true];
 };
 

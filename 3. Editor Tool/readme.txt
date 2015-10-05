@@ -1,4 +1,4 @@
- Installing the A3EAI Editor Tool
+ Installing the A3XAI Editor Tool
 
 1. Open your ArmA 3 client and open the Editor.
 
@@ -10,7 +10,7 @@
 
 5. Save your mission with a mission name of your choice. Remember this name.
 
-6. Locate your downloaded A3EAI install package. Locate the init.sqf file contained within the Editor Tool folder. Right click on this file and select Copy.
+6. Locate your downloaded A3XAI install package. Locate the init.sqf file contained within the Editor Tool folder. Right click on this file and select Copy.
 
 7. Locate your ArmA 3 client mission folder.
 
@@ -21,4 +21,5 @@
 9. Paste the init.sqf file inside this folder.
 
 
-For more details on using the Editor Tool, visit the A3EAI Wikia site here: http://a3eai.wikia.com/wiki/A3EAI_Editor_Tool
+For more details on using the Editor Tool and adding custom spawns/blacklist areas to your server, visit the A3XAI Wikia site here: http://A3XAI.wikia.com/wiki/A3XAI_Editor_Tool
+

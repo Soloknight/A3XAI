@@ -242,7 +242,7 @@ while {true} do {
 	};
 	
 	//Report statistics to RPT log
-	if ((A3XAI_monitorRate > 0) && {((_currentTime - _monitorReport) > A3XAI_monitorRate)}) then {
+	if ((A3XAI_monitorReportRate > 0) && {((_currentTime - _monitorReport) > A3XAI_monitorReportRate)}) then {
 		_uptime = [] call _getUptime;
 		diag_log format ["[A3XAI Monitor] [Uptime:%1:%2:%3][FPS:%4][Groups:%5][Respawn:%6][HC:%7]",_uptime select 0, _uptime select 1, _uptime select 2,round diag_fps,_activeGroupAmount,(count A3XAI_respawnQueue),A3XAI_HCIsConnected];
 		diag_log format ["[A3XAI Monitor] [Static:%1][Dynamic:%2][Random:%3][Air:%4][Land:%5][UAV:%6][UGV:%7]",(count A3XAI_staticTriggerArray),(count A3XAI_dynTriggerArray),(count A3XAI_randTriggerArray),A3XAI_curHeliPatrols,A3XAI_curLandPatrols,A3XAI_curUAVPatrols,A3XAI_curUGVPatrols];

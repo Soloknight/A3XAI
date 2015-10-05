@@ -31,7 +31,7 @@ if (_groupIsEmpty) then {
 		};
 	};
 } else {
-	if ((A3XAI_findKiller) && {(combatMode _unitGroup) isEqualTo "YELLOW"}) then {
+	if ((A3XAI_enableFindKiller) && {(combatMode _unitGroup) isEqualTo "YELLOW"}) then {
 		0 = [_killer,_unitGroup] spawn A3XAI_huntKiller;
 	};
 	if (!(_trigger getVariable ["respawn",true])) then {

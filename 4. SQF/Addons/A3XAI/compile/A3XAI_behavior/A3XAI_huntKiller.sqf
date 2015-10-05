@@ -63,7 +63,7 @@ if ((_startPos distance _targetPlayerPos) < _chaseDistance) then {
 		
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: AI group %1 in pursuit state. Pursuit time remaining: %2 seconds.",_unitGroup,(_unitGroup getVariable ["pursuitTime",0]) - diag_tickTime];};
 		
-		if ((A3XAI_radioMsgs) && {0.7 call A3XAI_chance}) then {
+		if ((A3XAI_enableRadioMessages) && {0.7 call A3XAI_chance}) then {
 			_leader = (leader _unitGroup);
 			if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST_RADIO_HUNTKILLER}) then {
 				_nearbyUnits = _targetPlayerPos nearEntities [[PLAYER_UNITS,"LandVehicle"],TRANSMIT_RANGE_RADIO_HUNTKILLER];
@@ -115,7 +115,7 @@ if ((_startPos distance _targetPlayerPos) < _chaseDistance) then {
 			_unitGroup setCurrentWaypoint (_waypoints call A3XAI_selectRandom);
 			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Pursuit state ended for group %1. Returning to patrol state.",_unitGroup];};
 			
-			if (A3XAI_radioMsgs) then {
+			if (A3XAI_enableRadioMessages) then {
 				_leader = (leader _unitGroup);
 				if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST_RADIO_HUNTKILLER} && {((_unitGroup getVariable ["GroupSize",0]) > 1)} && {isPlayer _targetPlayer}) then {
 					_radioText = if (alive _targetPlayer) then {4} else {5};

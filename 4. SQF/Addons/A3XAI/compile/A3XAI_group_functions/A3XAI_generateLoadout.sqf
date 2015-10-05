@@ -73,7 +73,7 @@ if ((getNumber (configFile >> "CfgMagazines" >> _magazine >> "count")) < 6) then
 };
 
 //Grenades
-_useGL = if !(A3XAI_GLRequirement isEqualTo -1) then {_unitLevel >= A3XAI_GLRequirement} else {false};
+_useGL = if !(A3XAI_levelRequiredGL isEqualTo -1) then {_unitLevel >= A3XAI_levelRequiredGL} else {false};
 if (_useGL) then {
 	_weaponMuzzles = getArray(configFile >> "cfgWeapons" >> _weaponSelected >> "muzzles");
 	if ((count _weaponMuzzles) > 1) then {
@@ -100,7 +100,7 @@ _isRifle = ((getNumber (configFile >> "CfgWeapons" >> _weaponSelected >> "type")
 if ((missionNamespace getVariable [("A3XAI_opticsChance"+_unitLevelString),3]) call A3XAI_chance) then {
 	_opticsList = getArray (configFile >> "CfgWeapons" >> _weaponSelected >> "WeaponSlotsInfo" >> "CowsSlot" >> "compatibleItems");
 	if !(_opticsList isEqualTo []) then {
-		_opticsType = A3XAI_weaponOpticsList call A3XAI_selectRandom;
+		_opticsType = A3XAI_opticsList call A3XAI_selectRandom;
 		if (_opticsType in _opticsList) then {
 			if (_isRifle) then {_unit addPrimaryWeaponItem _opticsType} else {_unit addHandGunItem _opticsType};
 		};
@@ -137,7 +137,7 @@ if ((missionNamespace getVariable [("A3XAI_underbarrelChance"+_unitLevelString),
 	};
 };
 
-_gadgetsArray = missionNamespace getVariable ["A3XAI_gadgets"+_unitLevelString,[]];
+_gadgetsArray = missionNamespace getVariable ["A3XAI_gadgetsList"+_unitLevelString,[]];
 for "_i" from 0 to ((count _gadgetsArray) - 1) do {
 	if (((_gadgetsArray select _i) select 1) call A3XAI_chance) then {
 		_gadget = ((_gadgetsArray select _i) select 0);
@@ -146,7 +146,7 @@ for "_i" from 0 to ((count _gadgetsArray) - 1) do {
 };
 
 //If unit was not given NVGs, give the unit temporary NVGs which will be removed at death.
-if (A3XAI_tempNVGs && {sunOrMoon < 1}) then {
+if (A3XAI_enableTempNVGs && {sunOrMoon < 1}) then {
 	_unit call A3XAI_addTempNVG;
 };
 

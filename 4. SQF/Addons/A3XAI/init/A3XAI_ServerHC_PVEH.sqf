@@ -20,6 +20,6 @@
 "A3XAI_setVehicleRegrouped_PVS" addPublicVariableEventHandler {(_this select 1) call A3XAI_setVehicleRegrouped;diag_log format ["Debug: %1",_this];};
 "A3XAI_spawnReinforcements_PVS" addPublicVariableEventHandler {(_this select 1) spawn A3XAI_spawn_reinforcement;diag_log format ["Debug: %1",_this];};
 "A3XAI_setBehavior_PVS" addPublicVariableEventHandler {(_this select 1) call A3XAI_setBehavior;diag_log format ["Debug: %1",_this];};
-"A3XAI_generateLoot_PVS" addPublicVariableEventHandler {(_this select 1) spawn A3XAI_generateLoot;diag_log format ["Debug: %1",_this];};
+"A3XAI_generateLootOnDeath_PVS" addPublicVariableEventHandler {(_this select 1) spawn A3XAI_generateLootOnDeath;diag_log format ["Debug: %1",_this];};
 
 diag_log "[A3XAI] Serverside PVEHs loaded.";

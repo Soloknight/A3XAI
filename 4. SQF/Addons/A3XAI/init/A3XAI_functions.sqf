@@ -128,6 +128,7 @@ A3XAI_initUVGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A
 A3XAI_moveToPosAndDeleteWP = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_moveToPosAndDeleteWP.sqf",A3XAI_directory];
 A3XAI_moveToPosAndPatrol = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_moveToPosAndPatrol.sqf",A3XAI_directory];
 A3XAI_noAggroAreaToggle = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_noAggroAreaToggle.sqf",A3XAI_directory];
+A3XAI_param = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_param.sqf",A3XAI_directory];
 A3XAI_posInBuilding = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_posInBuilding.sqf",A3XAI_directory];
 A3XAI_protectGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_protectGroup.sqf",A3XAI_directory];
 A3XAI_protectObject = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_protectObject.sqf",A3XAI_directory];
@@ -171,7 +172,7 @@ A3XAI_antistuck_land = compileFinal preprocessFileLineNumbers format ["%1\compil
 A3XAI_antistuck_uav = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_antistuck_uav.sqf",A3XAI_directory];
 A3XAI_antistuck_ugv = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_antistuck_ugv.sqf",A3XAI_directory];
 A3XAI_generateLootPool = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLootPool.sqf",A3XAI_directory];
-A3XAI_generateLoot = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLoot.sqf",A3XAI_directory];
+A3XAI_generateLootOnDeath = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLootOnDeath.sqf",A3XAI_directory];
 A3XAI_generateLoadout = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_generateLoadout.sqf",A3XAI_directory];
 A3XAI_addGroupManager = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_group_functions\A3XAI_addGroupManager.sqf",A3XAI_directory];
 

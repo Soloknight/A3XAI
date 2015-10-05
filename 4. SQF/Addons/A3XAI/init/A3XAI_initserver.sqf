@@ -12,36 +12,39 @@ _startTime = diag_tickTime;
 
 A3XAI_isActive = true;
 
-private ["_startTime","_directoryAsArray","_worldname","_allUnits","_functionsCheck","_readOverrideFile","_reportDirectoryName"];
+private ["_startTime","_worldname","_allUnits","_configCheck","_functionsCheck","_readOverrideFile","_reportDirectoryName","_configVersion","_coreVersion","_compatibleVersions"];
 
-_directoryAsArray = toArray __FILE__;
-_directoryAsArray resize ((count _directoryAsArray) - 26);
-A3XAI_directory = toString _directoryAsArray;
-A3XAI_ServerDir = A3XAI_directory;
+A3XAI_directory = "A3XAI"; //PREFIX
 
-//A3XAI_ServerDir = [missionConfigFile >> "A3XAI","serverDir","@exileserver"] call BIS_fnc_returnConfigEntry;
+_coreVersion = [configFile >> "CfgPatches" >> "A3XAI","A3XAIVersion","<not found>"] call BIS_fnc_returnConfigEntry;
+_configVersion = [configFile >> "CfgPatches" >> "A3XAI_config","A3XAIVersion","<not found>"] call BIS_fnc_returnConfigEntry;
+_compatibleVersions = [configFile >> "CfgPatches" >> "A3XAI","compatibleConfigVersions",[]] call BIS_fnc_returnConfigEntry;
+_serverDir = [missionConfigFile >> "CfgDeveloperOptions","serverDir","@A3XAI"] call BIS_fnc_returnConfigEntry;
 _readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 _reportDirectoryName = (([missionConfigFile >> "CfgDeveloperOptions","reportDirectoryName",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 if (_reportDirectoryName) then {
-	diag_log format ["Debug: File is [%1\%2]",A3XAI_ServerDir,__FILE__];
+	diag_log format ["Debug: File is [%1]",__FILE__];
+};
+
+if !(_configVersion in _compatibleVersions) exitWith {
+	diag_log format ["A3XAI Error: Incompatible A3XAI core and config pbo versions. Core: %1. Config: %2. Please update both A3XAI.pbo and A3XAI_config.pbo.",_coreVersion,_configVersion];
 };
 
 //Report A3XAI version to RPT log
 diag_log format ["[A3XAI] Initializing A3XAI version %1 using base path %2.",[configFile >> "CfgPatches" >> "A3XAI","A3XAIVersion","error - unknown version"] call BIS_fnc_returnConfigEntry,A3XAI_directory];
 
-//Load A3XAI main configuration file
-call compile preprocessFileLineNumbers format ["%1\A3XAI_config.sqf",A3XAI_ServerDir];
-
-call compile preprocessFileLineNumbers format ["%1\scripts\verifySettings.sqf",A3XAI_directory];
-
-//Load custom A3XAI settings file.
-if (_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
-
 //Load A3XAI functions
 _functionsCheck = call compile preprocessFileLineNumbers format ["%1\init\A3XAI_functions.sqf",A3XAI_directory];
 if (isNil "_functionsCheck") exitWith {diag_log "A3XAI Critical Error: Functions not successfully loaded. Stopping startup procedure.";};
+
+//Load A3XAI settings
+_configCheck = call compile preprocessFileLineNumbers format ["%1\init\loadSettings.sqf",A3XAI_directory];
+if (isNil "_configCheck") exitWith {diag_log "A3XAI Critical Error: Configuration file not successfully loaded. Stopping startup procedure.";};
+
+//Load custom A3XAI settings file.
+if ((_readOverrideFile) && {isFilePatchingEnabled}) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",_serverDir];};
 
 //Create reference marker to act as boundary for spawning AI air/land vehicles.
 _worldname = (toLower worldName);
@@ -101,5 +104,5 @@ if !((A3XAI_side getFriend A3XAI_side) isEqualTo 1) then {A3XAI_side setFriend [
 
 //Report A3XAI startup settings to RPT log
 diag_log format ["[A3XAI] A3XAI settings: Debug Level: %1. WorldName: %2. VerifyClassnames: %3. VerifySettings: %4.",A3XAI_debugLevel,_worldname,A3XAI_verifyClassnames,A3XAI_verifySettings];
-diag_log format ["[A3XAI] AI spawn settings: Static: %1. Dynamic: %2. Random: %3. Air: %4. Land: %5. UAV: %6. UGV: %7.",A3XAI_enableStaticSpawns,!(A3XAI_dynMaxSpawns isEqualTo 0),!(A3XAI_maxRandomSpawns isEqualTo 0),!(A3XAI_maxHeliPatrols isEqualTo 0),!(A3XAI_maxLandPatrols isEqualTo 0),!(A3XAI_maxUAVPatrols isEqualTo 0),!(A3XAI_maxUGVPatrols isEqualTo 0)];
+diag_log format ["[A3XAI] AI spawn settings: Static: %1. Dynamic: %2. Random: %3. Air: %4. Land: %5. UAV: %6. UGV: %7.",A3XAI_enableStaticSpawns,!(A3XAI_maxDynamicSpawns isEqualTo 0),!(A3XAI_maxRandomSpawns isEqualTo 0),!(A3XAI_maxAirPatrols isEqualTo 0),!(A3XAI_maxLandPatrols isEqualTo 0),!(A3XAI_maxUAVPatrols isEqualTo 0),!(A3XAI_maxUGVPatrols isEqualTo 0)];
 diag_log format ["[A3XAI] A3XAI loading completed in %1 seconds.",(diag_tickTime - _startTime)];

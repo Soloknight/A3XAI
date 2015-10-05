@@ -7,7 +7,7 @@ _unitType = _this select 1;
 _unitLevel = _this select 2;
 
 if !(_unitType in ["uav","ugv"]) then {
-	_useLaunchers = if !(A3XAI_launcherLevelReq isEqualTo -1) then {((count A3XAI_launcherTypes) > 0) && {(_unitLevel >= A3XAI_launcherLevelReq)}} else {false};
+	_useLaunchers = if !(A3XAI_levelRequiredLauncher isEqualTo -1) then {((count A3XAI_launcherTypes) > 0) && {(_unitLevel >= A3XAI_levelRequiredLauncher)}} else {false};
 	_maxLaunchers = if (_useLaunchers) then {A3XAI_launchersPerGroup min _unitLevel} else {0};
 	_launchersAdded = 0;
 	

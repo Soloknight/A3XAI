@@ -16,7 +16,7 @@ _error = false;
 call {
 	if (_vehicleType isKindOf "Air") exitWith {
 		//Note: no cargo units for air vehicles
-		_maxGunnerUnits = A3XAI_heliGunnerUnits;
+		_maxGunnerUnits = A3XAI_airGunnerUnits;
 		_unitLevel = "airvehicle" call A3XAI_getUnitLevel;
 		_vehiclePosition = [(getMarkerPos "A3XAI_centerMarker"),300 + (random((getMarkerSize "A3XAI_centerMarker") select 0)),random(360),1] call A3XAI_SHK_pos;
 		_vehiclePosition set [2,200];
@@ -25,8 +25,8 @@ call {
 	if (_vehicleType isKindOf "StaticWeapon") exitWith {_error = true};
 	if (_vehicleType isKindOf "Ship") exitWith {_error = true};
 	if (_vehicleType isKindOf "LandVehicle") exitWith {
-		_maxGunnerUnits = A3XAI_vehGunnerUnits;
-		_maxCargoUnits = A3XAI_vehCargoUnits;
+		_maxGunnerUnits = A3XAI_landGunnerUnits;
+		_maxCargoUnits = A3XAI_landCargoUnits;
 		_unitLevel = "landvehicle" call A3XAI_getUnitLevel;
 		while {_keepLooking} do {
 			_vehiclePosition = [(getMarkerPos "A3XAI_centerMarker"),300 + random((getMarkerSize "A3XAI_centerMarker") select 0),random(360),0,[2,750],[25,_vehicleType]] call A3XAI_SHK_pos;
@@ -187,7 +187,7 @@ if (A3XAI_enableHC && {_unitType in A3XAI_HCAllowedTypes}) then {
 	_unitGroup setVariable ["HC_Ready",true];
 };
 
-if (_unitType in A3XAI_airReinforcementAllowedTypes) then {
+if (_unitType in A3XAI_airReinforcementAllowedFor) then {
 	_unitGroup setVariable ["ReinforceAvailable",true];
 };
 
