@@ -215,7 +215,8 @@ class CfgA3XAISettings {
 	respawnLimit_capitalCity = -1;
 	respawnLimit_remoteArea = -1;
 	
-	//Add name of location as displayed on map prevent static AI spawns from being created in these locations. Location names are case-sensitive (Example: ["Aggelochori","Panochori","Zaros"])
+	//Add name of location as displayed on map prevent static AI spawns from being created in these locations. Location names are case-sensitive 
+	//Example: staticBlacklistLocations[] = {"Aggelochori","Panochori","Zaros"};
 	staticBlacklistLocations[] = {};
 	
 	
@@ -266,8 +267,8 @@ class CfgA3XAISettings {
 	//Enable player use of AI vehicles. Players must either disable the vehicle or kill all units of the group in order to access the vehicle. (Default: 0)
 	vehiclesAllowedForPlayers = 0;
 	
-	//Add name of location as displayed on map prevent AI vehicle patrols from travelling to these locations. Location names are case-sensitive. (Example: ["Aggelochori","Panochori","Zaros"])
-	//Note: Vehicles may still pass through these areas
+	//Add name of location as displayed on map prevent AI vehicle patrols from travelling to these locations. Location names are case-sensitive. Note: Vehicles may still pass through these areas
+	//Example: waypointBlacklistAir[] = {"Aggelochori","Panochori","Zaros"};
 	waypointBlacklistAir[] = {}; //Affects Air vehicles (including UAVs)
 	waypointBlacklistLand[] = {};  //Affects Land vehicles (including UGVs)
 	
@@ -376,7 +377,7 @@ class CfgA3XAISettings {
 	//Maximum allowed number of simultaneous active reinforcements (Default: 5)
 	maxAirReinforcements = 5;
 	
-	//Air vehicles to use as reinforcement vehicles. Default: ["B_Heli_Transport_01_F","B_Heli_Light_01_armed_F"]
+	//Air vehicles to use as reinforcement vehicles. Default: {"B_Heli_Transport_01_F","B_Heli_Light_01_armed_F"}
 	//Armed air vehicles will detect and engage players within reinforcement area. Unarmed air vehicles will deploy an AI paradrop group.
 	airReinforcementVehicles[] = {
 		"B_Heli_Transport_01_F",
@@ -389,7 +390,7 @@ class CfgA3XAISettings {
 	airReinforcementSpawnChance2 = 0.20;
 	airReinforcementSpawnChance3 = 0.30;
 	
-	//AI types permitted to summon reinforcements. Default: ["static","dynamic","random"]
+	//AI types permitted to summon reinforcements. Default: airReinforcementAllowedFor[] = {"static","dynamic","random"};
 	//Usable AI types: "static", "dynamic", "random", "air", "land", "staticcustom", "aircustom", "landcustom", "vehiclecrew"
 	airReinforcementAllowedFor[] = {"static","dynamic","random"};
 	
@@ -562,7 +563,7 @@ class CfgA3XAISettings {
 	addHeadgearChance2 = 0.80;
 	addHeadgearChance3 = 0.90;
 	
-	//Probabilities to equip level 0-3 AI with each weapon type. Order: [pistols, rifles, machineguns, sniper rifles]. Probabilities must add up to 1.00.
+	//Probabilities to equip level 0-3 AI with each weapon type. Order: {pistols, rifles, machineguns, sniper rifles}. Probabilities must add up to 1.00.
 	useWeaponChance0[] = {0.20,0.80,0.00,0.00};
 	useWeaponChance1[] = {0.00,0.90,0.05,0.05};
 	useWeaponChance2[] = {0.00,0.80,0.10,0.10};
@@ -712,7 +713,7 @@ class CfgA3XAISettings {
 		{"Exile_Item_XM8",0.90},{"ItemCompass",0.90},{"ItemMap",0.90},{"ItemGPS",0.30},{"ItemRadio",0.30}
 	};
 	
-	//AI-useable toolbelt item types. These items are added to AI inventory at unit creation and may be used by AI. Format: [item classname, item probability]
+	//AI-useable toolbelt item types. These items are added to AI inventory at unit creation and may be used by AI. Format: {item classname, item probability}
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	gadgetsList0[] = {
 		{"binocular",0.30},{"NVGoggles",0.00}
