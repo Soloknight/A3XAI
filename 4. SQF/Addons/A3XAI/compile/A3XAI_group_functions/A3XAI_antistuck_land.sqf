@@ -21,20 +21,10 @@ if ((((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_LAN
 		_unitGroup setVariable ["antistuckPos",_checkPos];
 		_unitGroup setVariable ["antistuckTime",diag_tickTime + (_stuckCheckTime/2)];
 	} else {
-		call {
-			if (((vectorUp _vehicle) select 2) > 0) exitWith {
-				_vehicle setVectorUp [0,0,1];
-				_vehicle setPosATL _checkPos;
-				_antistuckTime = "land" call A3XAI_getAntiStuckTime;
-				_unitGroup setVariable ["antistuckPos",_checkPos];
-				_unitGroup setVariable ["antistuckTime",diag_tickTime - _antistuckTime];
-				if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Unflipped AI vehicle %1 (Group %2).",(typeOf _vehicle),_unitGroup];};
-			};
-			if (!(_vehicle getVariable ["vehicle_disabled",false])) then {
-				[_vehicle] call A3XAI_vehDestroyed;
-				if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: AI vehicle %1 (Group: %2) is immobilized. Respawning vehicle patrol group. Damage: %3. WaterPos: %4.",(typeOf _vehicle),_unitGroup,(damage _vehicle),(surfaceIsWater _checkPos)];};
-				if (A3XAI_enableDebugMarkers) then {_checkPos call A3XAI_debugMarkerLocation;};
-			};
+		if (!(_vehicle getVariable ["vehicle_disabled",false])) then {
+			[_vehicle] call A3XAI_vehDestroyed;
+			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: AI vehicle %1 (Group: %2) is immobilized. Respawning vehicle patrol group. Damage: %3. WaterPos: %4.",(typeOf _vehicle),_unitGroup,(damage _vehicle),(surfaceIsWater _checkPos)];};
+			if (A3XAI_enableDebugMarkers) then {_checkPos call A3XAI_debugMarkerLocation;};
 		};
 	};
 } else {
