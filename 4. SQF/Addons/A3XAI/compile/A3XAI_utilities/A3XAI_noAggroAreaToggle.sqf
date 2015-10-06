@@ -9,7 +9,7 @@ _combatMode = (combatMode _unitGroup);
 
 if (_inNoAggroArea) then {
 	if (_combatMode != "BLUE") then {
-		 [_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
+		[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 		[_unitGroup,true] call A3XAI_setNoAggroStatus;
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 in no-aggro zone.",_unitGroup];};
 	};

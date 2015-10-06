@@ -1,3 +1,6 @@
+diag_log "[A3XAI] Compiling A3XAI HC functions.";
+
+//HC-only
 A3XAI_setGroupTriggerVars = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_headlessclient\A3XAI_setGroupTriggerVars.sqf",A3XAI_directory]; 
 A3XAI_handlestatic = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_headlessclient\A3XAI_handlestatic.sqf",A3XAI_directory]; 
 A3XAI_handlestaticcustom = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_headlessclient\A3XAI_handlestaticcustom.sqf",A3XAI_directory]; 

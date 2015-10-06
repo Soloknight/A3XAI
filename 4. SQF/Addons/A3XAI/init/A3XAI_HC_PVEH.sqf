@@ -7,6 +7,7 @@
 "A3XAI_cleanupReinforcement_PVC" addPublicVariableEventHandler {(_this select 1) spawn A3XAI_cleanupReinforcementHC;diag_log format ["Debug: %1",_this];};
 "A3XAI_setBehavior_PVC" addPublicVariableEventHandler {(_this select 1) call A3XAI_setBehaviorHC;diag_log format ["Debug: %1",_this];};
 "A3XAI_requestVehicleRelease_PVC" addPublicVariableEventHandler {(_this select 1) call A3XAI_releaseVehicleAllow;diag_log format ["Debug: %1",_this];};
+"A3XAI_setNoAggroStatus_PVC" addPublicVariableEventHandler {(_this select 1) call A3XAI_setAggroStatusRemoteGroup;diag_log format ["Debug: %1",_this];};
 
 diag_log "[A3XAI] A3XAI HC PVEHs loaded.";
 
